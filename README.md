@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cinematic Scrollytelling Portfolio
 
-## Getting Started
+A high-end, scrollytelling portfolio website built with plain HTML, CSS, and JavaScript. This project features a cinematic image sequence animation linked to the user's scroll progress, powered by **GSAP** and **Canvas**.
 
-First, run the development server:
+## 🚀 Features
+- **Cinematic Scrollytelling**: Smooth image sequence rendering on a high-DPI canvas.
+- **Modern UI**: Dark-themed, glassmorphic design using Plus Jakarta Sans and DM Sans.
+- **Responsive**: Fully optimized for mobile, tablet, and desktop experiences.
+- **High Performance**: Preloaded image frames and GSAP-powered animations.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📁 Structure
+- `index.html`: Project structure and content.
+- `style.css`: Custom animations and layout styles.
+- `script.js`: Scrollytelling logic, preloading, and scroll triggers.
+- `public/`: Assets including project images and the scrollytelling image sequence.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
+- **HTML5 & CSS3**
+- **JavaScript (Vanilla)**
+- **GSAP (GreenSock Animation Platform)**
+- **ScrollTrigger Plugin**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Getting Started
+Simply open `index.html` in any modern browser to view the portfolio.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🌐 Deployment
+This project is designed for static hosting platforms like **GitHub Pages**. 
+To deploy:
+1. Push the code to a GitHub repository.
+2. Go to **Settings > Pages**.
+3. Select the `main` branch and `/(root)` folder as the source.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+Built by [Dinesh Manore](https://github.com/dineshmanore)
