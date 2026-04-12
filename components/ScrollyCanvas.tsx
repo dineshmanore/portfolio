@@ -99,7 +99,8 @@ export default function ScrollyCanvas() {
         if (isCancelled) return;
         const img = new Image();
         const frameIndex = i.toString().padStart(3, "0");
-        img.src = `/sequence/frame_${frameIndex}${FRAME_EXTENSION}`;
+        img.src = `/portfolio/sequence/frame_${frameIndex}${FRAME_EXTENSION}`;
+
         await new Promise((resolve) => {
           img.onload = resolve;
           img.onerror = resolve; // Continue even if one fails
