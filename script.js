@@ -17,9 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. GSAP & ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-    });
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
 
     // --- Configuration ---
     const TOTAL_FRAMES = 120;
@@ -30,42 +28,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     const cursor = document.getElementById('cursor');
 
-    // --- REAL DATA ---
+    // --- Real Projects ---
     const PROJECTS = [
         {
-            title: "AI Study & Career Copilot",
-            category: "AI / EDTECH",
-            description: "AI-based platform for study guidance and career suggestions using intelligent recommendations.",
+            title: "AI Copilot",
+            category: "AI Engineering",
             image: "assets/projects/AI Study & Career Copilot.png",
-            live: "https://ai-study-career-copilot.vercel.app/",
-            code: "https://github.com/dineshmanore/AI-Study-Career-Copilot.git"
+            live: "https://ai-study-career-copilot.vercel.app/"
         },
         {
-            title: "SmartCart E-commerce",
-            category: "WEB APPLICATION",
-            description: "Simulates real-world online shopping with product browsing and cart functionality.",
-            image: "assets/projects/SmartCart e-commerce img.png",
-            live: "http://smartcartdm.vercel.app/",
-            code: "https://github.com/dineshmanore/Ecommerce-Web.git"
+            title: "SmartCart",
+            category: "Full Stack Development",
+            image: "assets/projects/SmartCart E-commerce img.png",
+            live: "http://smartcartdm.vercel.app/"
         },
         {
-            title: "Event & Ticketing System",
-            category: "PLATFORM DESIGN",
-            description: "Event discovery and ticket booking platform with a highly structured user flow.",
+            title: "Event Hub",
+            category: "Frontend Architecture",
             image: "assets/projects/Event Management System.png",
-            live: "https://event-management-ticketing-system-seven.vercel.app/",
-            code: "https://github.com/dineshmanore/event-management-ticketing-system.git"
+            live: "https://event-management-ticketing-system-seven.vercel.app/"
         }
     ];
 
-    const SKILLS = ["HTML5", "CSS3", "JAVASCRIPT", "REACT", "C / C++", "PYTHON", "PROBLEM SOLVING", "MOTION DESIGN"];
+    const SKILLS = ["REACT", "NEXT.JS", "TYPESCRIPT", "TAILWIND", "GSAP", "PYTHON", "AI APIS"];
 
-    // --- Cursor & Interactivity ---
+    // --- Cursor Interactivity ---
     document.addEventListener('mousemove', (e) => {
-        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+        gsap.to(cursor, { x: e.clientX - 6, y: e.clientY - 6, duration: 0.1 });
     });
 
-    // --- Injection ---
+    // --- Content Injection ---
     const injectContent = () => {
         const projectsGrid = document.getElementById('projects-grid');
         if (projectsGrid) {
@@ -76,13 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.target = "_blank";
                 card.className = "p-card fade-in-up";
                 card.innerHTML = `
-                    <div class="p-img-box">
-                        <img src="${encodeURI(p.image)}" alt="${p.title}" loading="lazy">
-                    </div>
-                    <div class="p-meta">
+                    <img src="${encodeURI(p.image)}" alt="${p.title}" class="p-img-bg" loading="lazy">
+                    <div class="p-gradient"></div>
+                    <div class="p-content">
                         <div>
-                            <h3 class="p-title">${p.title}</h3>
                             <span class="p-cat">${p.category}</span>
+                            <h3 class="p-title">${p.title}</h3>
+                        </div>
+                        <div class="p-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                         </div>
                     </div>
                 `;
@@ -103,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Preloading ---
+    // --- Preloading Sequence ---
     let framesLoaded = 0;
     const preloadImages = () => {
         for (let i = 1; i <= TOTAL_FRAMES; i++) {
@@ -115,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
                 if (loaderPercent) loaderPercent.innerText = Math.round(progress);
                 if (framesLoaded === TOTAL_FRAMES) {
-                    gsap.to(loader, { opacity: 0, scale: 1.1, duration: 1, ease: "power4.inOut", onComplete: () => {
+                    gsap.to(loader, { opacity: 0, duration: 1, ease: "power2.inOut", onComplete: () => {
                         loader.style.display = 'none';
                         renderFrame(0); 
                         initScrollAnimation();
@@ -127,53 +121,75 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Canvas ---
+    // --- Canvas Rendering (Framer Motion Replica smooth logic) ---
     const renderFrame = (index) => {
         const img = images[index];
         if (!img || !img.complete) return;
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        const ratio = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const w = img.width * ratio;
-        const h = img.height * ratio;
-        ctx.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+        
+        const canvasWidth = window.innerWidth * dpr;
+        const canvasHeight = window.innerHeight * dpr;
+        
+        if (canvas.width !== canvasWidth) canvas.width = canvasWidth;
+        if (canvas.height !== canvasHeight) canvas.height = canvasHeight;
+        
+        const imgRatio = img.width / img.height;
+        const canvasRatio = canvasWidth / canvasHeight;
+
+        let drawWidth = canvasWidth;
+        let drawHeight = canvasHeight;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        if (canvasRatio > imgRatio) {
+            drawHeight = canvasWidth / imgRatio;
+            offsetY = (canvasHeight - drawHeight) / 2;
+        } else {
+            drawWidth = canvasHeight * imgRatio;
+            offsetX = (canvasWidth - drawWidth) / 2;
+        }
+
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
     };
 
-    // --- Scroll Logic ---
+    // --- Main Scrollytelling Timelines (Matching AnasNihal exactly) ---
     const initScrollAnimation = () => {
-        gsap.to({f:0}, {
-            f: TOTAL_FRAMES - 1,
-            snap: "f",
-            scrollTrigger: { trigger: ".hero-canvas-section", start: "top top", end: "bottom bottom", scrub: 1 },
-            onUpdate: function() { renderFrame(this.targets()[0].f); }
+        const heroTrigger = ".hero-canvas-section";
+
+        // Image Sequence Scrubbing
+        const scrollObj = { frame: 0 };
+        gsap.to(scrollObj, {
+            frame: TOTAL_FRAMES - 1,
+            snap: "frame",
+            scrollTrigger: { trigger: heroTrigger, start: "top top", end: "bottom bottom", scrub: 0 },
+            onUpdate: function() { renderFrame(this.targets()[0].frame); }
         });
 
-        const bioTitle = document.getElementById('bio-title');
-        const bioSub = document.getElementById('bio-sub');
-        const bioWrapper = document.querySelector('.bio-content');
+        // Overlay Phase 1: Center (0 to 20%)
+        gsap.fromTo("#overlay-1", 
+            { y: "0vh", opacity: 1 }, 
+            { y: "-50vh", opacity: 0, scrollTrigger: { trigger: heroTrigger, start: "0%", end: "20%", scrub: true } }
+        );
 
-        const phases = [
-            { h1: "Dinesh<br>Manore", p: "B.Tech Student & Web Developer" },
-            { h1: "Building Real<br>Solutions", p: "Functionality, Usability, Practicality" },
-            { h1: "Crafting<br>Future Web", p: "B.Tech (2nd Year) @ G H Raisoni" }
-        ];
+        // Overlay Phase 2: Left (20% to 50%)
+        const t2 = gsap.timeline({ scrollTrigger: { trigger: heroTrigger, start: "20%", end: "50%", scrub: true }});
+        t2.fromTo("#overlay-2", { y: "50vh", opacity: 0 }, { y: "0vh", opacity: 1, duration: 0.3 }) // 20-35% (approx)
+          .to("#overlay-2", { y: "-50vh", opacity: 0, duration: 0.3 }); // 35-50%
 
-        const updateBio = (index) => {
-            gsap.to(bioWrapper, { opacity: 0, y: -20, duration: 0.3, onComplete: () => {
-                bioTitle.innerHTML = phases[index].h1;
-                bioSub.innerHTML = phases[index].p;
-                gsap.to(bioWrapper, { opacity: 1, y: 0, duration: 0.5 });
-            }});
-        };
+        // Overlay Phase 3: Right (50% to 80%)
+        const t3 = gsap.timeline({ scrollTrigger: { trigger: heroTrigger, start: "50%", end: "80%", scrub: true }});
+        t3.fromTo("#overlay-3", { y: "50vh", opacity: 0 }, { y: "0vh", opacity: 1, duration: 0.3 }) // 50-65%
+          .to("#overlay-3", { y: "-30vh", opacity: 0, duration: 0.3 }); // 65-80%
 
-        updateBio(0);
-        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "18% top", onEnter: () => updateBio(1), onLeaveBack: () => updateBio(0) });
-        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "38% top", onEnter: () => updateBio(2), onLeaveBack: () => updateBio(1) });
-        gsap.to(bioWrapper, { opacity: 0, y: -50, scrollTrigger: { trigger: ".hero-canvas-section", start: "85% top", scrub: true }});
-
+        // Entry animations for content body
         gsap.utils.toArray('.fade-in-up').forEach(el => {
-            gsap.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.5, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 92%" }});
+            gsap.fromTo(el, 
+                { opacity: 0, y: 40 }, 
+                { opacity: 1, y: 0, duration: 1.2, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 85%" } }
+            );
         });
     };
 

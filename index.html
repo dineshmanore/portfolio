@@ -3,32 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dinesh Manore | Developer Portfolio</title>
+    <title>Dinesh Manore | Software Developer</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css?v=4.0">
+    <link rel="stylesheet" href="style.css?v=5.0">
 </head>
 <body>
     <div class="cursor" id="cursor"></div>
-
-    <!-- Vertical Social Sidebar -->
-    <div class="social-sidebar">
-        <a href="https://github.com/dineshmanore" target="_blank" class="s-link">GH</a>
-        <a href="https://www.linkedin.com/in/dineshmanore/" target="_blank" class="s-link">LN</a>
-        <a href="mailto:dineshmanore6@gmail.com" class="s-link">EM</a>
-    </div>
 
     <!-- Header -->
     <header>
         <nav class="nav-pill">
             <a href="#home" class="nav-link">Home</a>
             <a href="#projects" class="nav-link">Work</a>
-            <a href="#about" class="nav-link">About</a>
+            <a href="#services" class="nav-link">Services</a>
             <a href="#contact" class="nav-link">Contact</a>
         </nav>
     </header>
 
-    <!-- Main Section -->
+    <!-- Main Section (Framer Motion Replica) -->
     <section id="home" class="hero-canvas-section">
         <div id="loader">
             <div id="loader-percent">0</div>
@@ -37,10 +30,27 @@
         <div class="canvas-wrapper">
             <canvas id="scrolly-canvas"></canvas>
             
-            <div id="scrolly-bio">
-                <div class="bio-content">
-                    <h1 class="bio-h1" id="bio-title">Dinesh<br>Manore</h1>
-                    <p class="bio-p" id="bio-sub">B.Tech Student & Web Developer</p>
+            <div class="overlay-layer">
+                <div class="overlay-container">
+                    <!-- Phase 1: Center -->
+                    <div id="overlay-1" class="overlay-text overlay-center">
+                        <h1 class="overlay-h1">Dinesh Manore</h1>
+                        <p class="overlay-p">Software Developer.</p>
+                    </div>
+
+                    <!-- Phase 2: Left -->
+                    <div id="overlay-2" class="overlay-text overlay-left" style="opacity: 0">
+                        <h2 class="overlay-h2">I build digital experiences.</h2>
+                        <div class="h-line"></div>
+                        <p class="overlay-p">Combining high performance and high-end design into cohesive narratives.</p>
+                    </div>
+
+                    <!-- Phase 3: Right -->
+                    <div id="overlay-3" class="overlay-text overlay-right" style="opacity: 0">
+                        <h2 class="overlay-h2">Bridging design & engineering.</h2>
+                        <div class="h-line"></div>
+                        <p class="overlay-p">Crafting interactions that feel native, responsive, and tell compelling stories.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,8 +62,10 @@
         <!-- Work Section -->
         <section id="projects" class="section">
             <div class="container">
-                <span class="section-label">Real-World Projects</span>
-                <h2 class="section-title">Selected <br> <span class="accent-text">Builds.</span></h2>
+                <div class="section-label">
+                    <span class="line"></span>
+                    Selected Works
+                </div>
                 
                 <div id="projects-grid" class="projects-grid">
                     <!-- Cards via JS -->
@@ -61,50 +73,49 @@
             </div>
         </section>
 
-        <!-- Services Section -->
+        <!-- Services Section (What I Do) -->
         <section id="services" class="section">
             <div class="container">
-                <span class="section-label">Capabilities</span>
-                <h2 class="section-title">Technical <br> <span class="accent-text">Focus.</span></h2>
+                <div class="section-label">
+                    <span class="line"></span>
+                    What I Do
+                </div>
                 
                 <div class="service-grid">
                     <div class="service-card fade-in-up">
-                        <div class="service-icon">
+                        <div class="service-card-glow"></div>
+                        <div class="service-icon-box">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                         </div>
-                        <h3>E-commerce Systems</h3>
-                        <p>Architecting functional shopping platforms with cart logic and seamless product flows.</p>
+                        <h4 class="service-title">Full Stack Development</h4>
+                        <p class="service-desc">Developing robust, scalable web applications from database architecture to responsive frontends.</p>
                     </div>
+                    
                     <div class="service-card fade-in-up" style="transition-delay: 0.1s">
-                        <div class="service-icon">
+                        <div class="service-card-glow"></div>
+                        <div class="service-icon-box">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
                         </div>
-                        <h3>AI-Based Tools</h3>
-                        <p>Integrating intelligent recommendation engines and AI APIs into practical study companions.</p>
+                        <h4 class="service-title">AI Engineering</h4>
+                        <p class="service-desc">Building intelligent agents and AI pipelines using cutting-edge APIs for practical applications.</p>
                     </div>
+                    
                     <div class="service-card fade-in-up" style="transition-delay: 0.2s">
-                        <div class="service-icon">
+                        <div class="service-card-glow"></div>
+                        <div class="service-icon-box">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line></svg>
                         </div>
-                        <h3>Event Platforms</h3>
-                        <p>Designing discovery and ticketing systems with structured user journeys and discovery logic.</p>
+                        <h4 class="service-title">Frontend Architecture</h4>
+                        <p class="service-desc">Crafting extremely performant modern React applications tailored for speed and SEO.</p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <span class="section-label">Portfolio About</span>
-                <h2 class="section-title">Practicality <br> <span class="accent-text">Over Static.</span></h2>
-                
-                <div class="grid col-2">
-                    <div class="fade-in-up">
-                        <div class="about-text">
-                            <p>I am a second-year B.Tech student at <strong>G H Raisoni International Skill Tech University, Pune</strong>. I focus on building applications that solve real-world problems.</p>
-                            <p>My priority is functionality and usability. I build tools like AI Copilots and E-commerce engines to master the bridge between code and user experience.</p>
+                    
+                    <div class="service-card fade-in-up" style="transition-delay: 0.3s">
+                        <div class="service-card-glow"></div>
+                        <div class="service-icon-box">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                         </div>
+                        <h4 class="service-title">UI/UX Engineering</h4>
+                        <p class="service-desc">Bridging the gap between design and engineering with pixel-perfect, interactive user interfaces.</p>
                     </div>
                 </div>
             </div>
@@ -119,15 +130,19 @@
 
         <!-- Contact -->
         <section id="contact" class="section">
-            <div class="container">
-                <h2 class="contact-big">Let's <br> Build <br> <span class="accent-text">Together.</span></h2>
+            <div class="container text-center">
+                <h2 class="contact-big">Let's <br> Build Something <br> <span style="color:var(--accent)">Together.</span></h2>
                 <a href="mailto:dineshmanore6@gmail.com" class="btn-contact">dineshmanore6@gmail.com</a>
+                <div style="margin-top: 4rem; display: flex; gap: 2rem; justify-content: center;">
+                    <a href="https://github.com/dineshmanore" target="_blank" style="color:var(--text-muted); text-decoration:none; font-weight: 500;">Github</a>
+                    <a href="https://www.linkedin.com/in/dineshmanore/" target="_blank" style="color:var(--text-muted); text-decoration:none; font-weight: 500;">LinkedIn</a>
+                </div>
             </div>
         </section>
 
         <footer>
             <div class="container">
-                <p>© 2026 Dinesh Manore. B.Tech Engineering.</p>
+                <p>© 2026 Dinesh Manore. Creative Software Developer.</p>
             </div>
         </footer>
 
@@ -137,6 +152,6 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=4.0"></script>
+    <script src="script.js?v=5.0"></script>
 </body>
 </html>
