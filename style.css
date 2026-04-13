@@ -282,6 +282,82 @@ header {
 .p-title { font-size: 2rem; color: white; margin-bottom: 0.5rem; }
 .p-cat { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
 
+/* Vertical Social Bar */
+.social-sidebar {
+    position: fixed;
+    left: 2rem;
+    bottom: 2rem;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .social-sidebar { display: flex; }
+}
+
+.social-sidebar::after {
+    content: "";
+    width: 1px;
+    height: 100px;
+    background: var(--border);
+}
+
+.s-link {
+    color: var(--text-muted);
+    transition: all 0.3s;
+    display: flex;
+}
+
+.s-link:hover {
+    color: var(--accent);
+    transform: translateY(-3px);
+}
+
+/* Services Section */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.service-card {
+    background: #0d0d0e;
+    border: 1px solid var(--border);
+    padding: 3rem;
+    border-radius: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+}
+
+.service-card:hover {
+    border-color: var(--accent);
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, var(--accent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+
+.service-card:hover::before { opacity: 0.05; }
+
+.service-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 2rem;
+    color: var(--accent);
+}
+
+.service-card h3 { font-size: 1.75rem; margin-bottom: 1rem; color: #fff; }
+.service-card p { color: var(--text-muted); font-size: 1rem; }
+
 /* Skills Marquee */
 .marquee {
     border-top: 1px solid var(--border);
