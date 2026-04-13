@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Configuration ---
     const TOTAL_FRAMES = 120;
-    const FRAME_PREFIX = 'sequence/frame_'; // Changed to root sequence folder
-    const FRAME_EXT = '.png';
     const images = [];
     const canvas = document.getElementById('scrolly-canvas');
     const ctx = canvas.getContext('2d');
@@ -19,21 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "AI Study & Career Copilot",
             category: "AI / EdTech",
             description: "AI-based platform for study guidance and career suggestions using intelligent recommendations.",
-            image: "public/projects/AI Study & Career Copilot.png",
+            image: "assets/projects/AI Study & Career Copilot.png",
             live: "https://ai-study-career-copilot.vercel.app/"
         },
         {
             title: "SmartCart E-commerce",
             category: "Full Stack",
             description: "Real-world online shopping simulation with product browsing, cart functionality, and sleek UI.",
-            image: "public/projects/SmartCart E-commerce img.png",
+            image: "assets/projects/SmartCart E-commerce img.png",
             live: "http://smartcartdm.vercel.app/"
         },
         {
             title: "Event Management System",
             category: "Web Platform",
             description: "Discovery and ticket booking platform with a structured user flow and automated ticket generation logic.",
-            image: "public/projects/Event Management System.png",
+            image: "assets/projects/Event Management System.png",
             live: "https://event-management-ticketing-system-seven.vercel.app/"
         }
     ];
@@ -68,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= TOTAL_FRAMES; i++) {
             const img = new Image();
             const frameNum = i.toString().padStart(3, '0');
-            // Try sequence/ first, if it fails maybe public/sequence/
-            img.src = `public/sequence/frame_${frameNum}${FRAME_EXT}`; 
+            img.src = `assets/sequence/frame_${frameNum}.png`; 
             img.onload = () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
@@ -79,10 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (framesLoaded === TOTAL_FRAMES) {
                     gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
                         loader.style.display = 'none';
-                        renderFrame(0); // Ensure first frame is visible immediately
+                        renderFrame(0); 
                         initScrollAnimation();
                     }});
                 }
+            };
+            img.onerror = () => {
+                console.error(`Failed to load frame ${frameNum}`);
+                framesLoaded++; // Continue anyway
             };
             images.push(img);
         }
@@ -94,19 +95,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!img || !img.complete || img.naturalWidth === 0) return;
 
         const dpr = window.devicePixelRatio || 1;
-        
-        // Only update dimensions if they actually changed to prevent flickering
-        if (canvas.width !== window.innerWidth * dpr || canvas.height !== window.innerHeight * dpr) {
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            const ctxScale = canvas.getContext('2d');
-            if(ctxScale) ctxScale.scale(dpr, dpr);
+        const logicalWidth = window.innerWidth;
+        const logicalHeight = window.innerHeight;
+
+        // Force canvas to match window size exactly in logical pixels
+        if (canvas.style.width !== logicalWidth + 'px' || canvas.style.height !== logicalHeight + 'px') {
+            canvas.style.width = logicalWidth + 'px';
+            canvas.style.height = logicalHeight + 'px';
+            canvas.width = logicalWidth * dpr;
+            canvas.height = logicalHeight * dpr;
         }
 
         const iWidth = img.width;
         const iHeight = img.height;
-        const cWidth = canvas.width / dpr; // Use logical units for math
-        const cHeight = canvas.height / dpr;
+        const cWidth = canvas.width;
+        const cHeight = canvas.height;
 
         const ratio = Math.max(cWidth / iWidth, cHeight / iHeight);
         const newWidth = iWidth * ratio;
@@ -118,10 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
     };
 
-
     // --- Scroll Animations ---
     const initScrollAnimation = () => {
-        // Hero Canvas Frame Animation
         const scrollObj = { frame: 0 };
         gsap.to(scrollObj, {
             frame: TOTAL_FRAMES - 1,
@@ -130,12 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger: ".hero-canvas-section",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 1
+                scrub: 0.5 // Faster response
             },
             onUpdate: () => renderFrame(scrollObj.frame)
         });
 
-        // Bio Text Phases
         const bioContainer = document.querySelector('.bio-content-container');
         const phases = [
             { title: "Dinesh <br> Manore<span class='accent-dot'>.</span>", bio: "Crafting cinematic digital experiences through motion." },
@@ -143,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
             { title: "Digital <br> Innovation<span class='accent-dot'>.</span>", bio: "Engineering functional solutions with precision and creative logic." }
         ];
 
-        // Inject first phase
         bioContainer.innerHTML = `
             <div id="bio-text" class="fade-in-up animate">
                 <h1 id="bio-title">${phases[0].title}</h1>
@@ -155,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const bioTitle = document.getElementById('bio-title');
         const bioDesc = document.getElementById('bio-desc');
 
-        // Text switching logic using ScrollTrigger
         ScrollTrigger.create({
             trigger: ".hero-canvas-section",
             start: "15% top",
@@ -170,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
             onLeaveBack: () => updateBio(1)
         });
 
-        // Fade out bio at 50% scroll
         gsap.to(bioContainer, {
             opacity: 0,
             scrollTrigger: {
@@ -189,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }});
         }
 
-        // --- General Reveal Animations ---
         gsap.utils.toArray('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
             gsap.from(el, {
                 opacity: 0,
@@ -203,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Stat Counting
         gsap.utils.toArray('.stat-num').forEach(num => {
             const target = parseInt(num.getAttribute('data-target'));
             gsap.to(num, {
@@ -218,18 +213,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- Content Injection ---
     const injectContent = () => {
-        // Projects
         const projectsGrid = document.getElementById('projects-grid');
         PROJECTS.forEach(p => {
             const card = document.createElement('a');
             card.href = p.live;
             card.target = "_blank";
             card.className = "project-card fade-in-up";
+            // Important: Use encodeURI for images with spaces
+            const safeImg = encodeURI(p.image);
             card.innerHTML = `
                 <div class="project-img-box">
-                    <img src="${p.image}" alt="${p.title}" loading="lazy">
+                    <img src="${safeImg}" alt="${p.title}" loading="lazy">
                 </div>
                 <div class="project-info">
                     <div class="project-header">
@@ -245,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
             projectsGrid.appendChild(card);
         });
 
-        // Experience
         const expList = document.getElementById('experience-list');
         EXPERIENCES.forEach((exp, i) => {
             const item = document.createElement('div');
@@ -266,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- Header & Scroll Progress ---
     window.addEventListener('scroll', () => {
         const header = document.getElementById('header');
         header.classList.toggle('scrolled', window.scrollY > 50);
@@ -275,17 +268,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('scroll-progress').style.width = `${progress}%`;
     });
 
-    // --- Resize Handler ---
     window.addEventListener('resize', () => {
         if (images.length > 0) {
-            // Force redraw current frame on resize
-            const scrollPercent = window.scrollY / (window.innerHeight * 4); // Based on hero height
+            const scrollPercent = window.scrollY / (window.innerHeight * 4); 
             const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(scrollPercent * TOTAL_FRAMES)));
             renderFrame(index);
         }
     });
 
-    // Start
     injectContent();
     preloadImages();
 });
