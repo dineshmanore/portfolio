@@ -690,10 +690,22 @@ header.scrolled {
     .col-2-lg { grid-template-columns: 1fr 1fr; }
 }
 
-/* Animations */
-.fade-in-up { opacity: 0; transform: translateY(30px); }
-.fade-in-up.animate {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+/* Sections */
+.section {
+    position: relative;
+    z-index: 20;
+    background: var(--bg-base);
 }
+
+.content-wrapper {
+    position: relative;
+    z-index: 30;
+    width: 100%;
+    background: var(--bg-base);
+}
+
+/* Animations - Ensure visible by default so GSAP can animate 'from' 0 */
+.fade-in, .fade-in-up, .fade-in-left, .fade-in-right { 
+    opacity: 1; 
+}
+

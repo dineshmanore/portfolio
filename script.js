@@ -242,8 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 opacity: 0,
                 scrollTrigger: {
                     trigger: ".hero-canvas-section",
-                    start: "45% top",
-                    end: "55% top",
+                    start: "85% top", // Stay visible much longer
+                    end: "95% top",
                     scrub: true
                 }
             });
@@ -258,17 +258,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // --- Improved Reveal Animations ---
         gsap.utils.toArray('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
-            gsap.from(el, {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%",
-                    toggleActions: "play none none none"
+            gsap.fromTo(el, 
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 90%",
+                        toggleActions: "play none none none"
+                    }
                 }
-            });
+            );
         });
 
         gsap.utils.toArray('.stat-num').forEach(num => {
@@ -283,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+
     };
 
     // Header & Scroll Progress
