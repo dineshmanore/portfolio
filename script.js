@@ -1,11 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("Portfolio Initialized");
+
     // GSAP Registration
-    gsap.registerPlugin(ScrollTrigger);
+    try {
+        gsap.registerPlugin(ScrollTrigger);
+    } catch (e) {
+        console.error("GSAP ScrollTrigger failed to load", e);
+    }
 
     // --- Configuration ---
     const TOTAL_FRAMES = 120;
     const images = [];
     const canvas = document.getElementById('scrolly-canvas');
+    if (!canvas) {
+        console.error("Canvas element not found!");
+        return;
+    }
     const ctx = canvas.getContext('2d');
     const loaderFill = document.getElementById('loader-fill');
     const loaderPercent = document.getElementById('loader-percent');
@@ -60,20 +70,74 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
+    // --- Content Injection (PRIORITY) ---
+    const injectContent = () => {
+        console.log("Injecting content...");
+        const projectsGrid = document.getElementById('projects-grid');
+        if (projectsGrid) {
+            PROJECTS.forEach(p => {
+                const card = document.createElement('a');
+                card.href = p.live;
+                card.target = "_blank";
+                card.className = "project-card fade-in-up";
+                const safeImg = encodeURI(p.image);
+                card.innerHTML = `
+                    <div class="project-img-box">
+                        <img src="${safeImg}" alt="${p.title}" loading="lazy">
+                    </div>
+                    <div class="project-info">
+                        <div class="project-header">
+                            <h3>${p.title}</h3>
+                            <div class="arrow-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
+                        </div>
+                        <div class="project-meta">
+                            <span class="project-cat">${p.category}</span>
+                        </div>
+                        <p class="project-description">${p.description}</p>
+                    </div>
+                `;
+                projectsGrid.appendChild(card);
+            });
+        }
+
+        const expList = document.getElementById('experience-list');
+        if (expList) {
+            EXPERIENCES.forEach((exp, i) => {
+                const item = document.createElement('div');
+                item.className = `timeline-item ${i % 2 === 0 ? 'left' : 'right'}`;
+                item.innerHTML = `
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content fade-in-up">
+                        <span class="period">${exp.period}</span>
+                        <h3>${exp.company}</h3>
+                        <p class="role">${exp.role}</p>
+                        <p class="desc">${exp.description}</p>
+                        <div class="highlights">
+                            ${exp.highlights.map(h => `<span class="highlight">${h}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                expList.appendChild(item);
+            });
+        }
+    };
+
     // --- Preloading ---
     let framesLoaded = 0;
     const preloadImages = () => {
+        console.log("Starting image preload...");
         for (let i = 1; i <= TOTAL_FRAMES; i++) {
             const img = new Image();
             const frameNum = i.toString().padStart(3, '0');
-            img.src = `assets/sequence/frame_${frameNum}.png`; 
+            img.src = `./assets/sequence/frame_${frameNum}.png`; 
             img.onload = () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
-                loaderFill.style.width = `${progress}%`;
-                loaderPercent.innerText = `LOADING SEQUENCE [${Math.round(progress)}%]`;
+                if (loaderFill) loaderFill.style.width = `${progress}%`;
+                if (loaderPercent) loaderPercent.innerText = `LOADING SEQUENCE [${Math.round(progress)}%]`;
                 
                 if (framesLoaded === TOTAL_FRAMES) {
+                    console.log("Preload complete");
                     gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
                         loader.style.display = 'none';
                         renderFrame(0); 
@@ -82,8 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             img.onerror = () => {
-                console.error(`Failed to load frame ${frameNum}`);
-                framesLoaded++; // Continue anyway
+                console.warn(`Failed to load frame ${frameNum}`);
+                framesLoaded++;
+                if (framesLoaded === TOTAL_FRAMES) {
+                    gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
+                        loader.style.display = 'none';
+                        renderFrame(0); 
+                        initScrollAnimation();
+                    }});
+                }
             };
             images.push(img);
         }
@@ -98,10 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const logicalWidth = window.innerWidth;
         const logicalHeight = window.innerHeight;
 
-        // Force canvas to match window size exactly in logical pixels
-        if (canvas.style.width !== logicalWidth + 'px' || canvas.style.height !== logicalHeight + 'px') {
-            canvas.style.width = logicalWidth + 'px';
-            canvas.style.height = logicalHeight + 'px';
+        if (canvas.width !== logicalWidth * dpr || canvas.height !== logicalHeight * dpr) {
             canvas.width = logicalWidth * dpr;
             canvas.height = logicalHeight * dpr;
         }
@@ -123,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Scroll Animations ---
     const initScrollAnimation = () => {
+        console.log("Initializing Scroll Animations");
         const scrollObj = { frame: 0 };
         gsap.to(scrollObj, {
             frame: TOTAL_FRAMES - 1,
@@ -136,55 +205,57 @@ document.addEventListener('DOMContentLoaded', () => {
             onUpdate: () => renderFrame(scrollObj.frame)
         });
 
-
         const bioContainer = document.querySelector('.bio-content-container');
-        const phases = [
-            { title: "Dinesh <br> Manore<span class='accent-dot'>.</span>", bio: "Crafting cinematic digital experiences through motion." },
-            { title: "Immersive <br> Experiences<span class='accent-dot'>.</span>", bio: "Crafting motion-rich interfaces that engage and inspire." },
-            { title: "Digital <br> Innovation<span class='accent-dot'>.</span>", bio: "Engineering functional solutions with precision and creative logic." }
-        ];
+        if (bioContainer) {
+            const phases = [
+                { title: "Dinesh <br> Manore<span class='accent-dot'>.</span>", bio: "Crafting cinematic digital experiences through motion." },
+                { title: "Immersive <br> Experiences<span class='accent-dot'>.</span>", bio: "Crafting motion-rich interfaces that engage and inspire." },
+                { title: "Digital <br> Innovation<span class='accent-dot'>.</span>", bio: "Engineering functional solutions with precision and creative logic." }
+            ];
 
-        bioContainer.innerHTML = `
-            <div id="bio-text" class="fade-in-up animate">
-                <h1 id="bio-title">${phases[0].title}</h1>
-                <p id="bio-desc">${phases[0].bio}</p>
-            </div>
-        `;
+            bioContainer.innerHTML = `
+                <div id="bio-text" class="fade-in-up animate">
+                    <h1 id="bio-title">${phases[0].title}</h1>
+                    <p id="bio-desc">${phases[0].bio}</p>
+                </div>
+            `;
 
-        const bioText = document.getElementById('bio-text');
-        const bioTitle = document.getElementById('bio-title');
-        const bioDesc = document.getElementById('bio-desc');
+            const bioText = document.getElementById('bio-text');
+            const bioTitle = document.getElementById('bio-title');
+            const bioDesc = document.getElementById('bio-desc');
 
-        ScrollTrigger.create({
-            trigger: ".hero-canvas-section",
-            start: "15% top",
-            onEnter: () => updateBio(1),
-            onLeaveBack: () => updateBio(0)
-        });
-
-        ScrollTrigger.create({
-            trigger: ".hero-canvas-section",
-            start: "35% top",
-            onEnter: () => updateBio(2),
-            onLeaveBack: () => updateBio(1)
-        });
-
-        gsap.to(bioContainer, {
-            opacity: 0,
-            scrollTrigger: {
+            ScrollTrigger.create({
                 trigger: ".hero-canvas-section",
-                start: "45% top",
-                end: "55% top",
-                scrub: true
-            }
-        });
+                start: "15% top",
+                onEnter: () => updateBio(1),
+                onLeaveBack: () => updateBio(0)
+            });
 
-        function updateBio(index) {
-            gsap.to(bioText, { opacity: 0, y: -20, duration: 0.3, onComplete: () => {
-                bioTitle.innerHTML = phases[index].title;
-                bioDesc.innerText = phases[index].bio;
-                gsap.to(bioText, { opacity: 1, y: 0, duration: 0.5 });
-            }});
+            ScrollTrigger.create({
+                trigger: ".hero-canvas-section",
+                start: "35% top",
+                onEnter: () => updateBio(2),
+                onLeaveBack: () => updateBio(1)
+            });
+
+            gsap.to(bioContainer, {
+                opacity: 0,
+                scrollTrigger: {
+                    trigger: ".hero-canvas-section",
+                    start: "45% top",
+                    end: "55% top",
+                    scrub: true
+                }
+            });
+
+            function updateBio(index) {
+                if (!bioText) return;
+                gsap.to(bioText, { opacity: 0, y: -20, duration: 0.3, onComplete: () => {
+                    bioTitle.innerHTML = phases[index].title;
+                    bioDesc.innerText = phases[index].bio;
+                    gsap.to(bioText, { opacity: 1, y: 0, duration: 0.5 });
+                }});
+            }
         }
 
         gsap.utils.toArray('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
@@ -214,69 +285,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const injectContent = () => {
-        const projectsGrid = document.getElementById('projects-grid');
-        PROJECTS.forEach(p => {
-            const card = document.createElement('a');
-            card.href = p.live;
-            card.target = "_blank";
-            card.className = "project-card fade-in-up";
-            // Important: Use encodeURI for images with spaces
-            const safeImg = encodeURI(p.image);
-            card.innerHTML = `
-                <div class="project-img-box">
-                    <img src="${safeImg}" alt="${p.title}" loading="lazy">
-                </div>
-                <div class="project-info">
-                    <div class="project-header">
-                        <h3>${p.title}</h3>
-                        <div class="arrow-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-cat">${p.category}</span>
-                    </div>
-                    <p class="project-description">${p.description}</p>
-                </div>
-            `;
-            projectsGrid.appendChild(card);
-        });
-
-        const expList = document.getElementById('experience-list');
-        EXPERIENCES.forEach((exp, i) => {
-            const item = document.createElement('div');
-            item.className = `timeline-item ${i % 2 === 0 ? 'left' : 'right'}`;
-            item.innerHTML = `
-                <div class="timeline-dot"></div>
-                <div class="timeline-content fade-in-up">
-                    <span class="period">${exp.period}</span>
-                    <h3>${exp.company}</h3>
-                    <p class="role">${exp.role}</p>
-                    <p class="desc">${exp.description}</p>
-                    <div class="highlights">
-                        ${exp.highlights.map(h => `<span class="highlight">${h}</span>`).join('')}
-                    </div>
-                </div>
-            `;
-            expList.appendChild(item);
-        });
-    };
-
+    // Header & Scroll Progress
     window.addEventListener('scroll', () => {
         const header = document.getElementById('header');
-        header.classList.toggle('scrolled', window.scrollY > 50);
+        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
 
-        const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-        document.getElementById('scroll-progress').style.width = `${progress}%`;
+        const scrollProgress = document.getElementById('scroll-progress');
+        if (scrollProgress) {
+            const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollProgress.style.width = `${progress}%`;
+        }
     });
 
     window.addEventListener('resize', () => {
         if (images.length > 0) {
-            const scrollPercent = window.scrollY / (window.innerHeight * 4); 
-            const index = Math.min(TOTAL_FRAMES - 1, Math.max(0, Math.floor(scrollPercent * TOTAL_FRAMES)));
-            renderFrame(index);
+            renderFrame(0); // Redraw first or current
         }
     });
 
+    // RUN
     injectContent();
     preloadImages();
 });
