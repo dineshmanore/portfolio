@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Portfolio V2 Initialized");
-
     // GSAP Registration
     gsap.registerPlugin(ScrollTrigger);
 
@@ -9,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = [];
     const canvas = document.getElementById('scrolly-canvas');
     const ctx = canvas.getContext('2d');
-    const loaderFill = document.getElementById('loader-fill');
     const loaderPercent = document.getElementById('loader-percent');
     const loader = document.getElementById('loader');
     const cursor = document.getElementById('cursor');
@@ -27,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "SmartCart E-commerce",
             category: "Full Stack",
             description: "Immersive shopping experience with intuitive state management and sleek glassmorphism design.",
-            image: "assets/projects/SmartCart E-commerce img.png",
+            image: "assets/projects/SmartCart e-commerce img.png",
             live: "http://smartcartdm.vercel.app/"
         },
         {
@@ -39,29 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
 
-    const EXPERIENCES = [
-        {
-            company: "G H Raisoni University",
-            role: "B.Tech Second Year",
-            period: "2024 - 2028",
-            description: "Mastering core engineering principles and advanced algorithms at G H Raisoni International Skill Tech University.",
-            highlights: ["Algorithms", "Machine Learning", "System Design"]
-        },
-        {
-            company: "Development Lab",
-            role: "Project Architect",
-            period: "Current",
-            description: "Leading the development of complex React-based applications with a focus on cinematic UI/UX.",
-            highlights: ["Animation Logic", "Data Seeding", "Production Deployment"]
-        }
-    ];
+    const SKILLS = ["TypeScript", "Next.js", "GSAP", "Three.js", "Python", "Node.js", "AWS", "Figma", "TailwindCSS", "PostgreSQL"];
 
-    // --- Cursor Logic ---
+    // --- Cursor ---
     document.addEventListener('mousemove', (e) => {
         gsap.to(cursor, {
-            x: e.clientX - 10,
-            y: e.clientY - 10,
-            duration: 0.1
+            x: e.clientX,
+            y: e.clientY,
+            duration: 0.1,
+            ease: "power2.out"
         });
     });
 
@@ -75,34 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.target = "_blank";
                 card.className = "project-card fade-in-up";
                 card.innerHTML = `
-                    <div class="project-img-box">
+                    <div class="project-image">
                         <img src="${encodeURI(p.image)}" alt="${p.title}" loading="lazy">
                     </div>
-                    <div class="project-info">
+                    <div class="project-meta">
                         <span class="project-cat">${p.category}</span>
-                        <h3>${p.title}</h3>
-                        <p class="project-description">${p.description}</p>
                     </div>
+                    <h3 class="project-title">${p.title}</h3>
+                    <p class="project-desc">${p.description}</p>
                 `;
                 projectsGrid.appendChild(card);
             });
         }
 
-        const expList = document.getElementById('experience-list');
-        if (expList) {
-            EXPERIENCES.forEach(exp => {
-                const item = document.createElement('div');
-                item.className = "timeline-item fade-in-up";
-                item.innerHTML = `
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <span class="period">${exp.period}</span>
-                        <h3>${exp.company}</h3>
-                        <p class="role">${exp.role}</p>
-                        <p class="desc">${exp.description}</p>
-                    </div>
-                `;
-                expList.appendChild(item);
+        const marquee = document.getElementById('marquee-skills');
+        if (marquee) {
+            const skillSet = [...SKILLS, ...SKILLS, ...SKILLS]; // Multiple sets for loop
+            skillSet.forEach(s => {
+                const span = document.createElement('span');
+                span.className = "skill-badge";
+                span.innerText = s;
+                marquee.appendChild(span);
             });
         }
     };
@@ -117,11 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
             img.onload = () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
-                if (loaderFill) loaderFill.style.width = `${progress}%`;
                 if (loaderPercent) loaderPercent.innerText = Math.round(progress);
                 
                 if (framesLoaded === TOTAL_FRAMES) {
-                    gsap.to(loader, { opacity: 0, duration: 1.5, ease: "power4.inOut", onComplete: () => {
+                    gsap.to(loader, { opacity: 0, duration: 1.2, ease: "power3.inOut", onComplete: () => {
                         loader.style.display = 'none';
                         renderFrame(0); 
                         initScrollAnimation();
@@ -136,30 +111,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Canvas Rendering ---
     const renderFrame = (index) => {
         const img = images[index];
-        if (!img || !img.complete || img.naturalWidth === 0) return;
+        if (!img || !img.complete) return;
 
         const dpr = window.devicePixelRatio || 1;
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
+        if (canvas.width !== window.innerWidth * dpr || canvas.height !== window.innerHeight * dpr) {
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
         }
 
         const ratio = Math.max(canvas.width / img.width, canvas.height / img.height);
-        const newWidth = img.width * ratio;
-        const newHeight = img.height * ratio;
-        const offsetX = (canvas.width - newWidth) / 2;
-        const offsetY = (canvas.height - newHeight) / 2;
+        const w = img.width * ratio;
+        const h = img.height * ratio;
+        const x = (canvas.width - w) / 2;
+        const y = (canvas.height - h) / 2;
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+        ctx.drawImage(img, x, y, w, h);
     };
 
     // --- Animations ---
     const initScrollAnimation = () => {
-        // Hero Frame Animation
         const scrollObj = { frame: 0 };
         gsap.to(scrollObj, {
             frame: TOTAL_FRAMES - 1,
@@ -173,21 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
             onUpdate: () => renderFrame(scrollObj.frame)
         });
 
-        // Bio Phases - Center Floating like Reference
-        const bioContainer = document.getElementById('bio-text');
+        // Bio Phases - Akshay Style
+        const bioContent = document.getElementById('bio-text');
         const phases = [
-            { text: "Dinesh Manore<span class='accent-dot'>.</span>", sub: "Creative Developer & Interaction Designer" },
-            { text: "Cinematic Motion<span class='accent-dot'>.</span>", sub: "Building interfaces that feel alive" },
-            { text: "Digital Innovation<span class='accent-dot'>.</span>", sub: "Crafting products with precision" }
+            { h1: "Dinesh Manore<span class='accent-blue'>.</span>", p: "Interaction Designer & Full Stack Developer" },
+            { h1: "Creative Engineering<span class='accent-blue'>.</span>", p: "Where function meets digital precision" },
+            { h1: "Build the Future<span class='accent-blue'>.</span>", p: "Crafting products for tomorrow's web" }
         ];
 
         let currentPhase = -1;
         const updateBio = (index) => {
             if (index === currentPhase) return;
             currentPhase = index;
-            gsap.to(bioContainer, { opacity: 0, y: 10, duration: 0.4, onComplete: () => {
-                bioContainer.innerHTML = `<h1>${phases[index].text}</h1><p>${phases[index].sub}</p>`;
-                gsap.to(bioContainer, { opacity: 1, y: 0, duration: 0.6 });
+            gsap.to(bioContent, { opacity: 0, y: 15, duration: 0.4, onComplete: () => {
+                bioContent.innerHTML = `<h1>${phases[index].h1}</h1><p>${phases[index].p}</p>`;
+                gsap.to(bioContent, { opacity: 1, y: 0, duration: 0.6 });
             }});
         };
 
@@ -195,42 +166,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "15% top", onEnter: () => updateBio(1), onLeaveBack: () => updateBio(0) });
         ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "35% top", onEnter: () => updateBio(2), onLeaveBack: () => updateBio(1) });
-        
-        gsap.to(bioContainer, { opacity: 0, scrollTrigger: { trigger: ".hero-canvas-section", start: "80% top", scrub: true }});
+        gsap.to(bioContent, { opacity: 0, scrollTrigger: { trigger: ".hero-canvas-section", start: "85% top", scrub: true }});
 
-        // Section Reveals
+        // Reveals
         gsap.utils.toArray('.fade-in-up').forEach(el => {
-            gsap.fromTo(el, 
-                { opacity: 0, y: 50 },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.5,
-                    ease: "power3.out",
-                    scrollTrigger: { trigger: el, start: "top 90%" }
-                }
-            );
-        });
-
-        // Stat Counter
-        gsap.utils.toArray('.stat-num').forEach(num => {
-            const target = parseInt(num.getAttribute('data-target'));
-            gsap.to(num, {
-                innerText: target,
-                duration: 2.5,
-                snap: { innerText: 1 },
-                scrollTrigger: { trigger: num, start: "top 90%" }
+            gsap.fromTo(el, { opacity: 0, y: 40 }, { 
+                opacity: 1, y: 0, 
+                duration: 1.2, 
+                ease: "power3.out",
+                scrollTrigger: { trigger: el, start: "top 90%" }
             });
         });
     };
-
-    // Header Logic
-    window.addEventListener('scroll', () => {
-        const header = document.getElementById('header');
-        header.classList.toggle('scrolled', window.scrollY > 100);
-        document.getElementById('scroll-progress').style.width = 
-            (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + "%";
-    });
 
     injectContent();
     preloadImages();

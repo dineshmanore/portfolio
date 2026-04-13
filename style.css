@@ -1,14 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 :root {
     --bg-base: #000000;
-    --bg-surface: #0a0a0a;
+    --bg-surface: rgba(24, 24, 27, 0.5); /* Zinc-900/50 */
     --text-main: #ffffff;
-    --text-muted: #9ca3af;
-    --accent: #3b82f6; /* Akshay's neon blue */
-    --accent-glow: rgba(59, 130, 246, 0.3);
-    --white-5: rgba(255, 255, 255, 0.05);
-    --white-10: rgba(255, 255, 255, 0.1);
+    --text-muted: #a1a1aa; /* Zinc-400 */
+    --accent: #3b82f6; /* Blue-500 */
+    --border: rgba(255, 255, 255, 0.1);
     --glass: rgba(255, 255, 255, 0.03);
-    --border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -26,26 +25,27 @@ html {
 body {
     background-color: var(--bg-base);
     color: var(--text-main);
-    font-family: 'DM Sans', sans-serif;
-    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
     overflow-x: hidden;
 }
 
-h1, h2, h3, .logo {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+h1, h2, h3, h4, .logo {
+    font-weight: 800;
+    letter-spacing: -0.05em;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--white-10); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* Layout Utilities */
+/* Layout */
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1.5rem;
     width: 100%;
 }
 
@@ -55,107 +55,59 @@ h1, h2, h3, .logo {
 .flex-col { flex-direction: column; }
 .text-center { text-align: center; }
 .relative { position: relative; }
-.hidden { display: none; }
-.z-1 { z-index: 1; }
 .w-full { width: 100%; }
-.max-w-4xl { max-width: 56rem; }
-.max-w-1200 { max-width: 1200px; }
-.max-w-1240 { max-width: 1240px; }
 
-.py-12 { padding-top: 3rem; padding-bottom: 3rem; }
-.py-32 { padding-top: 10rem; padding-bottom: 10rem; }
+.py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+.py-32 { padding-top: 8rem; padding-bottom: 8rem; }
+.mb-4 { margin-bottom: 1rem; }
 .mb-8 { margin-bottom: 2rem; }
 .mb-12 { margin-bottom: 3rem; }
 .mb-16 { margin-bottom: 4rem; }
-.mb-20 { margin-bottom: 5rem; }
-.mb-24 { margin-bottom: 6rem; }
-.gap-6 { gap: 1.5rem; }
 .gap-8 { gap: 2rem; }
-.gap-20 { gap: 5rem; }
+.gap-12 { gap: 3rem; }
 
-/* Header */
+/* Header - Akshay Pill Style */
 header {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
-    padding: 1.5rem 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width: auto;
+    min-width: 320px;
 }
 
-header.scrolled {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 0;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: white;
-    text-decoration: none;
-    letter-spacing: -0.05em;
-    text-transform: uppercase;
-}
-
-.logo span { color: var(--accent); }
-
-.desktop-nav {
-    display: none;
-    gap: 3rem;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 0.5rem 2rem;
-    border-radius: 9999px;
+.nav-pill {
+    background: rgba(9, 9, 11, 0.8);
+    backdrop-filter: blur(12px);
     border: 1px solid var(--border);
-    backdrop-filter: blur(10px);
-}
-
-@media (min-width: 1024px) {
-    .desktop-nav { display: flex; }
+    padding: 0.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .nav-link {
     text-decoration: none;
     color: var(--text-muted);
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: all 0.3s;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    transition: all 0.2s;
 }
 
 .nav-link:hover, .nav-link.active {
     color: white;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.btn-resume {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.6rem;
-    background: var(--accent);
-    border-radius: 9999px;
-    color: white;
-    text-decoration: none;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    transition: all 0.3s;
-    box-shadow: 0 0 20px var(--accent-glow);
-}
-
-.btn-resume:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 0 30px var(--accent-glow);
-}
-
-/* Cinematic Hero */
+/* Hero - Akshay Cinematic */
 .hero-canvas-section {
     position: relative;
     width: 100%;
-    height: 700vh;
-    z-index: 10;
+    height: 600vh;
 }
 
 .canvas-wrapper {
@@ -169,20 +121,15 @@ header.scrolled {
 }
 
 #scrolly-canvas {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* Floating Bio - Center Aligned like reference */
 #scrolly-bio {
     position: absolute;
     inset: 0;
-    z-index: 30;
+    z-index: 50;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,33 +137,26 @@ header.scrolled {
 }
 
 .bio-content-container {
-    width: 100%;
-    max-width: 1400px;
     text-align: center;
-    padding: 0 2rem;
+    max-width: 1000px;
 }
 
 #bio-text h1 {
-    font-size: clamp(4rem, 15vw, 10rem);
-    font-weight: 800;
-    line-height: 0.9;
-    letter-spacing: -0.06em;
-    margin-bottom: 2rem;
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    line-height: 1;
+    margin-bottom: 1.5rem;
     color: white;
-    text-shadow: 0 0 40px rgba(0,0,0,0.8);
+    letter-spacing: -0.06em;
 }
 
 #bio-text p {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(0.875rem, 2vw, 1.125rem);
     color: var(--text-muted);
-    max-width: 40rem;
-    margin: 0 auto;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
     font-weight: 500;
+    letter-spacing: 0.05em;
 }
 
-.accent-dot { color: var(--accent); }
+.accent-blue { color: var(--accent); }
 
 /* Loader */
 #loader {
@@ -229,198 +169,179 @@ header.scrolled {
     justify-content: center;
 }
 
-.loader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 #loader-percent {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 5rem;
-    font-weight: 800;
+    font-size: 8vw;
+    font-weight: 900;
     letter-spacing: -0.05em;
-    margin-bottom: 1rem;
-    background: linear-gradient(to bottom, #fff, #555);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: white;
 }
 
-.loader-bar {
-    width: 200px;
-    height: 2px;
-    background: var(--white-10);
-}
-
-#loader-fill {
-    height: 100%;
-    background: var(--accent);
-    width: 0%;
-}
-
-/* Sections Refresh */
-.section {
-    position: relative;
-    background: var(--bg-base);
-    padding: 10rem 0;
-}
-
-.section-title-alt {
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    margin-bottom: 4rem;
-}
-
-.section-title-alt span { color: var(--accent); }
-
-.pill {
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
+/* Sections */
+.section-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 9999px;
     color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 600;
     margin-bottom: 1rem;
-    display: inline-block;
 }
 
-/* Bento Cards / Project Design */
+.section-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 3rem;
+}
+
+/* Grid System */
+.grid { display: grid; }
+.col-2 { grid-template-columns: 1fr; gap: 2.5rem; }
+@media (min-width: 1024px) {
+    .col-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* About Section */
+.about-visual {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.neural-graphic {
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+    filter: blur(40px);
+    opacity: 0.3;
+}
+
+.about-text {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+}
+
+.about-text p { margin-bottom: 1.5rem; }
+.about-text strong { color: white; }
+
+/* Marquee Skills */
+.marquee-container {
+    overflow: hidden;
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin: 4rem 0;
+}
+
+.marquee-content {
+    display: flex;
+    gap: 2rem;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.skill-badge {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-surface);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+}
+
+/* Project Cards */
 .project-card {
     background: var(--bg-surface);
     border: 1px solid var(--border);
     border-radius: 1.5rem;
-    overflow: hidden;
+    padding: 1.25rem;
     text-decoration: none;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    display: flex;
-    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    background: rgba(24, 24, 27, 0.8);
 }
 
-.project-img-box {
+.project-image {
     width: 100%;
     aspect-ratio: 16/10;
+    background: #000;
+    border-radius: 1rem;
     overflow: hidden;
-    background: #111;
+    margin-bottom: 1.5rem;
 }
 
-.project-img-box img {
+.project-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.7s;
+    opacity: 0.8;
+    transition: opacity 0.3s;
 }
 
-.project-card:hover img { transform: scale(1.05); }
+.project-card:hover img { opacity: 1; }
 
-.project-info {
-    padding: 2.5rem;
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
 }
 
 .project-cat {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
     color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    display: block;
 }
 
-.project-info h3 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
+.project-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
     color: white;
 }
 
-.project-description {
+.project-desc {
     color: var(--text-muted);
-    font-size: 1.0625rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
 }
 
-/* Experience List - Akshay Style */
-.timeline-item {
-    border-left: 2px solid var(--white-10);
-    padding: 0 0 4rem 3rem;
-    position: relative;
-}
-
-.timeline-dot {
-    position: absolute;
-    left: -6px;
-    top: 0;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--accent);
-    box-shadow: 0 0 10px var(--accent);
-}
-
-.timeline-content .period {
+/* Footer */
+footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
     font-size: 0.875rem;
-    color: var(--accent);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    display: block;
 }
 
-.timeline-content h3 { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
-.timeline-content .role { font-size: 1.25rem; color: white; margin-bottom: 1.5rem; opacity: 0.8; }
-.timeline-content .desc { color: var(--text-muted); font-size: 1.125rem; }
-
-/* Contact */
-.contact-section {
-    background: linear-gradient(to top, #0a0a0a, #000);
-}
-
-.contact-title {
-    font-size: clamp(3.5rem, 12vw, 10rem);
-    font-weight: 800;
-    letter-spacing: -0.06em;
-    line-height: 0.9;
-}
-
-.btn-primary {
-    background: white;
-    color: black;
-    padding: 1.5rem 3.5rem;
-    border-radius: 9999px;
-    font-size: 1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    transition: all 0.4s;
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.btn-primary:hover {
-    background: var(--accent);
-    color: white;
-    transform: scale(1.05);
-}
-
-/* Custom Cursor Placeholder */
+/* Custom Cursor */
 .cursor {
-    display: none;
     position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--accent);
+    width: 16px;
+    height: 16px;
+    background: white;
     border-radius: 50%;
-    z-index: 9999;
+    z-index: 10000;
     pointer-events: none;
-    transition: transform 0.1s;
-}
-
-@media (min-width: 1024px) {
-    .cursor { display: block; }
+    mix-blend-mode: difference;
+    transition: transform 0.1s ease-out;
 }
