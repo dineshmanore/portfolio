@@ -1,46 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Portfolio Initialized");
+    console.log("Portfolio V2 Initialized");
 
     // GSAP Registration
-    try {
-        gsap.registerPlugin(ScrollTrigger);
-    } catch (e) {
-        console.error("GSAP ScrollTrigger failed to load", e);
-    }
+    gsap.registerPlugin(ScrollTrigger);
 
     // --- Configuration ---
     const TOTAL_FRAMES = 120;
     const images = [];
     const canvas = document.getElementById('scrolly-canvas');
-    if (!canvas) {
-        console.error("Canvas element not found!");
-        return;
-    }
     const ctx = canvas.getContext('2d');
     const loaderFill = document.getElementById('loader-fill');
     const loaderPercent = document.getElementById('loader-percent');
     const loader = document.getElementById('loader');
+    const cursor = document.getElementById('cursor');
 
-    // --- Data Sections ---
+    // --- Data ---
     const PROJECTS = [
         {
-            title: "AI Study & Career Copilot",
-            category: "AI / EdTech",
-            description: "AI-based platform for study guidance and career suggestions using intelligent recommendations.",
+            title: "AI Study Copilot",
+            category: "Artificial Intelligence",
+            description: "Intelligent study guidance and career path visualization platform built with modern AI integration.",
             image: "assets/projects/AI Study & Career Copilot.png",
             live: "https://ai-study-career-copilot.vercel.app/"
         },
         {
             title: "SmartCart E-commerce",
             category: "Full Stack",
-            description: "Real-world online shopping simulation with product browsing, cart functionality, and sleek UI.",
+            description: "Immersive shopping experience with intuitive state management and sleek glassmorphism design.",
             image: "assets/projects/SmartCart E-commerce img.png",
             live: "http://smartcartdm.vercel.app/"
         },
         {
-            title: "Event Management System",
+            title: "Event Platform",
             category: "Web Platform",
-            description: "Discovery and ticket booking platform with a structured user flow and automated ticket generation logic.",
+            description: "High-performance event discovery and ticket generation system with optimized user flows.",
             image: "assets/projects/Event Management System.png",
             live: "https://event-management-ticketing-system-seven.vercel.app/"
         }
@@ -51,28 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
             company: "G H Raisoni University",
             role: "B.Tech Second Year",
             period: "2024 - 2028",
-            description: "Actively pursuing B.Tech at G H Raisoni International Skill Tech University, Pune. Mastering core engineering principles.",
-            highlights: ["Academic Excellence", "Lab Research", "Data Structures"]
+            description: "Mastering core engineering principles and advanced algorithms at G H Raisoni International Skill Tech University.",
+            highlights: ["Algorithms", "Machine Learning", "System Design"]
         },
         {
-            company: "AI & Full Stack Lab",
-            role: "Project Developer",
-            period: "2024 - Present",
-            description: "Developing complex applications like 'AI Study Copilot' and 'SmartCart' using modern JavaScript.",
-            highlights: ["React Development", "API Integration", "AI Logic"]
-        },
-        {
-            company: "Event Management Dev",
-            role: "System Designer",
-            period: "2025",
-            description: "Architected a structured discovery and ticketing platform focusing on user flow optimization.",
-            highlights: ["System Design", "UI/UX Flow", "Problem Solving"]
+            company: "Development Lab",
+            role: "Project Architect",
+            period: "Current",
+            description: "Leading the development of complex React-based applications with a focus on cinematic UI/UX.",
+            highlights: ["Animation Logic", "Data Seeding", "Production Deployment"]
         }
     ];
 
-    // --- Content Injection (PRIORITY) ---
+    // --- Cursor Logic ---
+    document.addEventListener('mousemove', (e) => {
+        gsap.to(cursor, {
+            x: e.clientX - 10,
+            y: e.clientY - 10,
+            duration: 0.1
+        });
+    });
+
+    // --- Content Injection ---
     const injectContent = () => {
-        console.log("Injecting content...");
         const projectsGrid = document.getElementById('projects-grid');
         if (projectsGrid) {
             PROJECTS.forEach(p => {
@@ -80,19 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.href = p.live;
                 card.target = "_blank";
                 card.className = "project-card fade-in-up";
-                const safeImg = encodeURI(p.image);
                 card.innerHTML = `
                     <div class="project-img-box">
-                        <img src="${safeImg}" alt="${p.title}" loading="lazy">
+                        <img src="${encodeURI(p.image)}" alt="${p.title}" loading="lazy">
                     </div>
                     <div class="project-info">
-                        <div class="project-header">
-                            <h3>${p.title}</h3>
-                            <div class="arrow-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></div>
-                        </div>
-                        <div class="project-meta">
-                            <span class="project-cat">${p.category}</span>
-                        </div>
+                        <span class="project-cat">${p.category}</span>
+                        <h3>${p.title}</h3>
                         <p class="project-description">${p.description}</p>
                     </div>
                 `;
@@ -102,19 +90,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const expList = document.getElementById('experience-list');
         if (expList) {
-            EXPERIENCES.forEach((exp, i) => {
+            EXPERIENCES.forEach(exp => {
                 const item = document.createElement('div');
-                item.className = `timeline-item ${i % 2 === 0 ? 'left' : 'right'}`;
+                item.className = "timeline-item fade-in-up";
                 item.innerHTML = `
                     <div class="timeline-dot"></div>
-                    <div class="timeline-content fade-in-up">
+                    <div class="timeline-content">
                         <span class="period">${exp.period}</span>
                         <h3>${exp.company}</h3>
                         <p class="role">${exp.role}</p>
                         <p class="desc">${exp.description}</p>
-                        <div class="highlights">
-                            ${exp.highlights.map(h => `<span class="highlight">${h}</span>`).join('')}
-                        </div>
                     </div>
                 `;
                 expList.appendChild(item);
@@ -125,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Preloading ---
     let framesLoaded = 0;
     const preloadImages = () => {
-        console.log("Starting image preload...");
         for (let i = 1; i <= TOTAL_FRAMES; i++) {
             const img = new Image();
             const frameNum = i.toString().padStart(3, '0');
@@ -134,28 +118,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
                 if (loaderFill) loaderFill.style.width = `${progress}%`;
-                if (loaderPercent) loaderPercent.innerText = `LOADING SEQUENCE [${Math.round(progress)}%]`;
+                if (loaderPercent) loaderPercent.innerText = Math.round(progress);
                 
                 if (framesLoaded === TOTAL_FRAMES) {
-                    console.log("Preload complete");
-                    gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
+                    gsap.to(loader, { opacity: 0, duration: 1.5, ease: "power4.inOut", onComplete: () => {
                         loader.style.display = 'none';
                         renderFrame(0); 
                         initScrollAnimation();
                     }});
                 }
             };
-            img.onerror = () => {
-                console.warn(`Failed to load frame ${frameNum}`);
-                framesLoaded++;
-                if (framesLoaded === TOTAL_FRAMES) {
-                    gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
-                        loader.style.display = 'none';
-                        renderFrame(0); 
-                        initScrollAnimation();
-                    }});
-                }
-            };
+            img.onerror = () => { framesLoaded++; };
             images.push(img);
         }
     };
@@ -166,32 +139,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!img || !img.complete || img.naturalWidth === 0) return;
 
         const dpr = window.devicePixelRatio || 1;
-        const logicalWidth = window.innerWidth;
-        const logicalHeight = window.innerHeight;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
 
-        if (canvas.width !== logicalWidth * dpr || canvas.height !== logicalHeight * dpr) {
-            canvas.width = logicalWidth * dpr;
-            canvas.height = logicalHeight * dpr;
+        if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
         }
 
-        const iWidth = img.width;
-        const iHeight = img.height;
-        const cWidth = canvas.width;
-        const cHeight = canvas.height;
+        const ratio = Math.max(canvas.width / img.width, canvas.height / img.height);
+        const newWidth = img.width * ratio;
+        const newHeight = img.height * ratio;
+        const offsetX = (canvas.width - newWidth) / 2;
+        const offsetY = (canvas.height - newHeight) / 2;
 
-        const ratio = Math.max(cWidth / iWidth, cHeight / iHeight);
-        const newWidth = iWidth * ratio;
-        const newHeight = iHeight * ratio;
-        const offsetX = (cWidth - newWidth) / 2;
-        const offsetY = (cHeight - newHeight) / 2;
-
-        ctx.clearRect(0, 0, cWidth, cHeight);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
     };
 
-    // --- Scroll Animations ---
+    // --- Animations ---
     const initScrollAnimation = () => {
-        console.log("Initializing Scroll Animations");
+        // Hero Frame Animation
         const scrollObj = { frame: 0 };
         gsap.to(scrollObj, {
             frame: TOTAL_FRAMES - 1,
@@ -200,116 +168,70 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger: ".hero-canvas-section",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.1 
+                scrub: 1
             },
             onUpdate: () => renderFrame(scrollObj.frame)
         });
 
-        const bioContainer = document.querySelector('.bio-content-container');
-        if (bioContainer) {
-            const phases = [
-                { title: "Dinesh <br> Manore<span class='accent-dot'>.</span>", bio: "Crafting cinematic digital experiences through motion." },
-                { title: "Immersive <br> Experiences<span class='accent-dot'>.</span>", bio: "Crafting motion-rich interfaces that engage and inspire." },
-                { title: "Digital <br> Innovation<span class='accent-dot'>.</span>", bio: "Engineering functional solutions with precision and creative logic." }
-            ];
+        // Bio Phases - Center Floating like Reference
+        const bioContainer = document.getElementById('bio-text');
+        const phases = [
+            { text: "Dinesh Manore<span class='accent-dot'>.</span>", sub: "Creative Developer & Interaction Designer" },
+            { text: "Cinematic Motion<span class='accent-dot'>.</span>", sub: "Building interfaces that feel alive" },
+            { text: "Digital Innovation<span class='accent-dot'>.</span>", sub: "Crafting products with precision" }
+        ];
 
-            bioContainer.innerHTML = `
-                <div id="bio-text" class="fade-in-up animate">
-                    <h1 id="bio-title">${phases[0].title}</h1>
-                    <p id="bio-desc">${phases[0].bio}</p>
-                </div>
-            `;
+        let currentPhase = -1;
+        const updateBio = (index) => {
+            if (index === currentPhase) return;
+            currentPhase = index;
+            gsap.to(bioContainer, { opacity: 0, y: 10, duration: 0.4, onComplete: () => {
+                bioContainer.innerHTML = `<h1>${phases[index].text}</h1><p>${phases[index].sub}</p>`;
+                gsap.to(bioContainer, { opacity: 1, y: 0, duration: 0.6 });
+            }});
+        };
 
-            const bioText = document.getElementById('bio-text');
-            const bioTitle = document.getElementById('bio-title');
-            const bioDesc = document.getElementById('bio-desc');
+        updateBio(0);
 
-            ScrollTrigger.create({
-                trigger: ".hero-canvas-section",
-                start: "15% top",
-                onEnter: () => updateBio(1),
-                onLeaveBack: () => updateBio(0)
-            });
+        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "15% top", onEnter: () => updateBio(1), onLeaveBack: () => updateBio(0) });
+        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "35% top", onEnter: () => updateBio(2), onLeaveBack: () => updateBio(1) });
+        
+        gsap.to(bioContainer, { opacity: 0, scrollTrigger: { trigger: ".hero-canvas-section", start: "80% top", scrub: true }});
 
-            ScrollTrigger.create({
-                trigger: ".hero-canvas-section",
-                start: "35% top",
-                onEnter: () => updateBio(2),
-                onLeaveBack: () => updateBio(1)
-            });
-
-            gsap.to(bioContainer, {
-                opacity: 0,
-                scrollTrigger: {
-                    trigger: ".hero-canvas-section",
-                    start: "85% top", // Stay visible much longer
-                    end: "95% top",
-                    scrub: true
-                }
-            });
-
-            function updateBio(index) {
-                if (!bioText) return;
-                gsap.to(bioText, { opacity: 0, y: -20, duration: 0.3, onComplete: () => {
-                    bioTitle.innerHTML = phases[index].title;
-                    bioDesc.innerText = phases[index].bio;
-                    gsap.to(bioText, { opacity: 1, y: 0, duration: 0.5 });
-                }});
-            }
-        }
-
-        // --- Improved Reveal Animations ---
-        gsap.utils.toArray('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right').forEach(el => {
+        // Section Reveals
+        gsap.utils.toArray('.fade-in-up').forEach(el => {
             gsap.fromTo(el, 
-                { opacity: 0, y: 30 },
+                { opacity: 0, y: 50 },
                 {
                     opacity: 1,
                     y: 0,
-                    duration: 1.2,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 90%",
-                        toggleActions: "play none none none"
-                    }
+                    duration: 1.5,
+                    ease: "power3.out",
+                    scrollTrigger: { trigger: el, start: "top 90%" }
                 }
             );
         });
 
+        // Stat Counter
         gsap.utils.toArray('.stat-num').forEach(num => {
             const target = parseInt(num.getAttribute('data-target'));
             gsap.to(num, {
                 innerText: target,
-                duration: 2,
+                duration: 2.5,
                 snap: { innerText: 1 },
-                scrollTrigger: {
-                    trigger: num,
-                    start: "top 90%"
-                }
+                scrollTrigger: { trigger: num, start: "top 90%" }
             });
         });
-
     };
 
-    // Header & Scroll Progress
+    // Header Logic
     window.addEventListener('scroll', () => {
         const header = document.getElementById('header');
-        if (header) header.classList.toggle('scrolled', window.scrollY > 50);
-
-        const scrollProgress = document.getElementById('scroll-progress');
-        if (scrollProgress) {
-            const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            scrollProgress.style.width = `${progress}%`;
-        }
+        header.classList.toggle('scrolled', window.scrollY > 100);
+        document.getElementById('scroll-progress').style.width = 
+            (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + "%";
     });
 
-    window.addEventListener('resize', () => {
-        if (images.length > 0) {
-            renderFrame(0); // Redraw first or current
-        }
-    });
-
-    // RUN
     injectContent();
     preloadImages();
 });

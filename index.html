@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dinesh Manore | Cinematic Portfolio</title>
+    <title>Dinesh Manore | Creative Portfolio</title>
     <meta name="description" content="Cinematic scrollytelling portfolio of Dinesh Manore, Creative Developer.">
     
     <!-- Fonts -->
@@ -12,45 +12,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css?v=1.3">
+    <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 <body>
     <div id="scroll-progress"></div>
-
+    <div class="cursor" id="cursor"></div>
 
     <!-- Header -->
     <header id="header">
         <div class="container flex justify-between items-center">
-            <a href="#home" class="logo">DINESH<span>.</span></a>
+            <a href="#home" class="logo">Dinesh<span>.</span></a>
             <nav class="desktop-nav">
-                <a href="#home" class="nav-link" data-section="home">About</a>
-                <a href="#skills" class="nav-link" data-section="skills">Services</a>
-                <a href="#projects" class="nav-link" data-section="projects">Work</a>
-                <a href="#experience" class="nav-link" data-section="experience">Experience</a>
-                <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Work</a>
+                <a href="#experience" class="nav-link">Experience</a>
+                <a href="#contact" class="nav-link">Contact</a>
             </nav>
             <div class="actions">
-                <div class="socials">
-                    <a href="https://github.com/dineshmanore" target="_blank">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/dineshmanore/" target="_blank">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                    </a>
-                </div>
-                <a href="#" class="btn-resume">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    Resume
-                </a>
+                <a href="mailto:dineshmanore6@gmail.com" class="btn-resume">Let's Talk</a>
             </div>
         </div>
     </header>
 
-    <!-- Scrollytelling Section -->
+    <!-- Cinematic Hero -->
     <section id="home" class="hero-canvas-section">
         <div id="loader">
             <div class="loader-content">
-                <span id="loader-percent">LOADING SEQUENCE [0%]</span>
+                <div id="loader-percent">0</div>
                 <div class="loader-bar">
                     <div id="loader-fill"></div>
                 </div>
@@ -62,103 +51,61 @@
             
             <div id="scrolly-bio">
                 <div class="bio-content-container">
-                    <!-- Phases will be injected or animated here via JS -->
+                    <div id="bio-text">
+                        <!-- Dynamic Content from JS -->
+                    </div>
                 </div>
             </div>
 
             <div class="scroll-indicator">
-                <span class="text">Scroll to explore</span>
                 <div class="line"></div>
             </div>
         </div>
     </section>
 
-    <!-- Content Sections -->
+    <!-- Main Content Wrapper -->
     <div class="content-wrapper">
+        
         <!-- About Section -->
         <section id="about" class="section">
             <div class="container">
-                <div class="fade-in mb-20">
-                    <h2 class="section-title">
-                        Building things that <span class="italic-title">feel alive.</span>
-                    </h2>
+                <div class="fade-in mb-24">
+                    <div class="pill">Who I Am</div>
+                    <h2 class="section-title-alt">Crafting cinematic <br> <span>digital experiences.</span></h2>
                 </div>
+                
                 <div class="grid col-2 gap-20 items-center">
-                    <div class="fade-in-left">
+                    <div class="fade-in-up">
                         <div class="about-text">
-                            <p>I am a <strong>second-year B.Tech student</strong> at G H Raisoni International Skill Tech University, Pune. My focus is on building real-world web applications that solve practical problems.</p>
-                            <p>From <strong>e-commerce systems</strong> to <strong>AI-based tools</strong>, I prioritize functionality and usability, ensuring every digital solution I build provides genuine value.</p>
+                            <p>I am a second-year B.Tech student at G H Raisoni International Skill Tech University, Pune. My focus is on building real-world web applications that solve practical problems.</p>
+                            <p>From e-commerce systems to AI-based tools, I prioritize functionality and usability, ensuring every digital solution I build provides genuine value.</p>
                         </div>
+                    </div>
+                    <div class="fade-in-up">
                         <div class="stats-row">
                             <div class="stat">
                                 <span class="stat-num" data-target="3">0</span><span class="stat-plus">+</span>
-                                <span class="stat-label">Live Projects</span>
+                                <span class="stat-label">Production Projects</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-num" data-target="20">0</span><span class="stat-plus">+</span>
-                                <span class="stat-label">Hours Spent</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-num" data-target="5">0</span>
-                                <span class="stat-label">Tech Stack</span>
+                                <span class="stat-num" data-target="500">0</span><span class="stat-plus">+</span>
+                                <span class="stat-label">Coding Hours</span>
                             </div>
                         </div>
                     </div>
-                    <div class="fade-in-right relative neural-graphic">
-                        <div class="neural-glow"></div>
-                        <div class="neural-sphere"></div>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Tech Marquee Placeholder (Logic in CSS/JS) -->
-        <div class="tech-marquee-wrapper">
-            <!-- Animated in CSS -->
-        </div>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section text-center">
-            <div class="container flex-center">
-                <div class="fade-in mb-20 text-center">
-                    <div class="pill">Core Capabilities</div>
-                    <h2 class="section-title-alt">What I <span>Do</span></h2>
+        <!-- Work Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <div class="fade-in mb-24">
+                    <div class="pill">Expertise</div>
+                    <h2 class="section-title-alt">Selected <span>Work.</span></h2>
                 </div>
-                <div class="grid col-2-md gap-6 w-full max-w-1200">
-                    <!-- Cards via JS or HTML -->
-                    <div class="card skill-card fade-in-up">
-                        <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
-                        <h3>Frontend Architecture</h3>
-                        <p>Designing scalable, maintainable, and high-performance frontend systems using semantic accessible markup and clean visual hierarchy.</p>
-                    </div>
-                    <div class="card skill-card fade-in-up" style="animation-delay: 0.1s">
-                        <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
-                        <h3>Interactive Development</h3>
-                        <p>Building seamless user interfaces with advanced DOM manipulation, dynamic events, and modern Javascript.</p>
-                    </div>
-                    <div class="card skill-card fade-in-up" style="animation-delay: 0.2s">
-                        <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg></div>
-                        <h3>Responsive Design</h3>
-                        <p>Crafting fluid, mobile-first layouts that adapt perfectly to any screen size or device ecosystem.</p>
-                    </div>
-                    <div class="card skill-card fade-in-up" style="animation-delay: 0.3s">
-                        <div class="card-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
-                        <h3>UI Implementation</h3>
-                        <p>Translating complex designs into pixel-perfect, interactive code with smooth cinematic animations.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section text-center">
-            <div class="container flex-center">
-                <div class="fade-in mb-20">
-                    <div class="pill">Selected Work</div>
-                    <h2 class="section-title-alt text-white-50">Selected <span>Work</span></h2>
-                </div>
-                <div class="grid col-2-lg gap-8 w-full max-w-1240" id="projects-grid">
-                    <!-- Project cards will be injected or listed here -->
+                <div id="projects-grid" class="grid col-2 gap-8">
+                    <!-- Project Cards Injected by JS -->
                 </div>
             </div>
         </section>
@@ -166,57 +113,46 @@
         <!-- Experience Section -->
         <section id="experience" class="section">
             <div class="container">
-                <div class="fade-in mb-24 text-center">
-                    <div class="pill">The Journey</div>
-                    <h2 class="section-title-alt text-white-50">My <span>Experience</span></h2>
+                <div class="fade-in mb-24">
+                    <div class="pill">History</div>
+                    <h2 class="section-title-alt">My <span>Experience.</span></h2>
                 </div>
-                <div class="timeline relative">
-                    <div class="timeline-line"></div>
-                    <div id="experience-list"></div>
+                <div id="experience-list" class="timeline">
+                    <!-- Timeline Injected by JS -->
                 </div>
             </div>
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="section contact-section">
-            <div class="neural-glow-center"></div>
-            <div class="container max-w-4xl pt-16 pb-24 text-center z-1">
-                <h2 class="contact-title fade-in-up">Let's Work <br> <span>Together</span></h2>
-                <p class="contact-sub fade-in-up">Whether you have a unique project idea or a creative vision to bring to life, I'd love to hear from you. Let's build something exceptional.</p>
-                <div class="contact-actions fade-in-up">
+        <section id="contact" class="section contact-section text-center">
+            <div class="container py-32">
+                <div class="fade-in">
+                    <h2 class="contact-title">Start a <br> <span>Project.</span></h2>
+                    <p class="contact-sub mb-20" style="margin-top:2rem">Let's build something exceptional together. I'm currently available for freelance and collaborations.</p>
                     <a href="mailto:dineshmanore6@gmail.com" class="btn-primary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                        SEND A MESSAGE
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        Say Hello
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
-                    <button class="btn-outline">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                        DOWNLOAD CV
-                    </button>
                 </div>
             </div>
         </section>
 
         <!-- Footer -->
-        <footer class="footer">
-            <div class="container flex justify-between items-center py-12 border-t border-white-5">
-                <div class="footer-left">
-                    <p class="copyright">© 2026 DINESH MANORE. All rights reserved.</p>
-                </div>
-                <div class="socials text-white-50">
-                    <a href="https://github.com/dineshmanore" target="_blank">Github</a>
-                    <a href="https://www.linkedin.com/in/dineshmanore/" target="_blank">LinkedIn</a>
+        <footer class="py-12 border-t border-white-5">
+            <div class="container flex justify-between items-center">
+                <p style="font-size: 13px; color: var(--text-muted)">© 2026 Dinesh Manore</p>
+                <div class="flex gap-8">
+                    <a href="https://github.com/dineshmanore" target="_blank" class="nav-link">Github</a>
+                    <a href="https://www.linkedin.com/in/dineshmanore/" target="_blank" class="nav-link">LinkedIn</a>
                 </div>
             </div>
         </footer>
+
     </div>
 
-    <!-- GSAP & Plugins -->
+    <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Custom JS -->
-    <script src="script.js?v=1.3"></script>
+    <script src="script.js?v=2.0"></script>
 </body>
 </html>
-
