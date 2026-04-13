@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (framesLoaded === TOTAL_FRAMES) {
                     gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
                         loader.style.display = 'none';
+                        renderFrame(0); // Ensure first frame is visible immediately
                         initScrollAnimation();
                     }});
                 }
@@ -90,16 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Canvas Rendering ---
     const renderFrame = (index) => {
         const img = images[index];
-        if (!img || !img.complete) return;
+        if (!img || !img.complete || img.naturalWidth === 0) return;
 
         const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
+        
+        // Only update dimensions if they actually changed to prevent flickering
+        if (canvas.width !== window.innerWidth * dpr || canvas.height !== window.innerHeight * dpr) {
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            const ctxScale = canvas.getContext('2d');
+            if(ctxScale) ctxScale.scale(dpr, dpr);
+        }
 
         const iWidth = img.width;
         const iHeight = img.height;
-        const cWidth = canvas.width;
-        const cHeight = canvas.height;
+        const cWidth = canvas.width / dpr; // Use logical units for math
+        const cHeight = canvas.height / dpr;
 
         const ratio = Math.max(cWidth / iWidth, cHeight / iHeight);
         const newWidth = iWidth * ratio;
@@ -110,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.clearRect(0, 0, cWidth, cHeight);
         ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
     };
+
 
     // --- Scroll Animations ---
     const initScrollAnimation = () => {
