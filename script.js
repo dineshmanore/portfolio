@@ -131,10 +131,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 trigger: ".hero-canvas-section",
                 start: "top top",
                 end: "bottom bottom",
-                scrub: 0.5 // Faster response
+                scrub: 0.1 
             },
             onUpdate: () => renderFrame(scrollObj.frame)
         });
+
 
         const bioContainer = document.querySelector('.bio-content-container');
         const phases = [

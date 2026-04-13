@@ -166,9 +166,10 @@ header.scrolled {
 .hero-canvas-section {
     position: relative;
     width: 100%;
-    height: 500vh;
+    height: 700vh;
     z-index: 1;
 }
+
 
 .canvas-wrapper {
     position: sticky;
@@ -249,10 +250,12 @@ header.scrolled {
     padding: 0 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding-bottom: 8rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     height: 100%;
 }
+
 
 .bio-phase {
     display: none;
