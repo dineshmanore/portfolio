@@ -1,6 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // GSAP Registration
+    // 1. Lenis Smooth Scroll
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+        infinite: false,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // 2. GSAP & ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
+    
+    // Sync Lenis with ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
 
     // --- Configuration ---
     const TOTAL_FRAMES = 120;
@@ -16,27 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             title: "AI Study Copilot",
             category: "Artificial Intelligence",
-            description: "Intelligent study guidance and career path visualization platform built with modern AI integration.",
             image: "assets/projects/AI Study & Career Copilot.png",
             live: "https://ai-study-career-copilot.vercel.app/"
         },
         {
-            title: "SmartCart E-commerce",
+            title: "SmartCart",
             category: "Full Stack",
-            description: "Immersive shopping experience with intuitive state management and sleek glassmorphism design.",
             image: "assets/projects/SmartCart e-commerce img.png",
             live: "http://smartcartdm.vercel.app/"
         },
         {
-            title: "Event Platform",
+            title: "Event System",
             category: "Web Platform",
-            description: "High-performance event discovery and ticket generation system with optimized user flows.",
             image: "assets/projects/Event Management System.png",
             live: "https://event-management-ticketing-system-seven.vercel.app/"
         }
     ];
 
-    const SKILLS = ["TypeScript", "Next.js", "GSAP", "Three.js", "Python", "Node.js", "AWS", "Figma", "TailwindCSS", "PostgreSQL"];
+    const SKILLS = ["REACT", "GSAP", "NEXT.JS", "TYPESCRIPT", "PYTHON", "NODE.JS", "AWS", "FIGMA"];
 
     // --- Cursor ---
     document.addEventListener('mousemove', (e) => {
@@ -56,29 +79,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = document.createElement('a');
                 card.href = p.live;
                 card.target = "_blank";
-                card.className = "project-card fade-in-up";
+                card.className = "p-card fade-in-up";
                 card.innerHTML = `
-                    <div class="project-image">
+                    <div class="p-img-box">
                         <img src="${encodeURI(p.image)}" alt="${p.title}" loading="lazy">
                     </div>
-                    <div class="project-meta">
-                        <span class="project-cat">${p.category}</span>
+                    <div class="p-meta">
+                        <div>
+                            <h3 class="p-title">${p.title}</h3>
+                            <span class="p-cat">${p.category}</span>
+                        </div>
                     </div>
-                    <h3 class="project-title">${p.title}</h3>
-                    <p class="project-desc">${p.description}</p>
                 `;
                 projectsGrid.appendChild(card);
             });
         }
 
-        const marquee = document.getElementById('marquee-skills');
-        if (marquee) {
-            const skillSet = [...SKILLS, ...SKILLS, ...SKILLS]; // Multiple sets for loop
+        const marqueeInner = document.getElementById('marquee-inner');
+        if (marqueeInner) {
+            const skillSet = [...SKILLS, ...SKILLS, ...SKILLS, ...SKILLS];
             skillSet.forEach(s => {
-                const span = document.createElement('span');
-                span.className = "skill-badge";
-                span.innerText = s;
-                marquee.appendChild(span);
+                const item = document.createElement('div');
+                item.className = "m-item";
+                item.innerText = s;
+                marqueeInner.appendChild(item);
             });
         }
     };
@@ -94,9 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
                 if (loaderPercent) loaderPercent.innerText = Math.round(progress);
-                
                 if (framesLoaded === TOTAL_FRAMES) {
-                    gsap.to(loader, { opacity: 0, duration: 1.2, ease: "power3.inOut", onComplete: () => {
+                    gsap.to(loader, { opacity: 0, duration: 1, onComplete: () => {
                         loader.style.display = 'none';
                         renderFrame(0); 
                         initScrollAnimation();
@@ -108,13 +131,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- Canvas Rendering ---
+    // --- Canvas ---
     const renderFrame = (index) => {
         const img = images[index];
         if (!img || !img.complete) return;
 
         const dpr = window.devicePixelRatio || 1;
-        if (canvas.width !== window.innerWidth * dpr || canvas.height !== window.innerHeight * dpr) {
+        if (canvas.width !== window.innerWidth * dpr) {
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
         }
@@ -129,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(img, x, y, w, h);
     };
 
-    // --- Animations ---
+    // --- Main Scrollytelling ---
     const initScrollAnimation = () => {
         const scrollObj = { frame: 0 };
         gsap.to(scrollObj, {
@@ -144,35 +167,50 @@ document.addEventListener('DOMContentLoaded', () => {
             onUpdate: () => renderFrame(scrollObj.frame)
         });
 
-        // Bio Phases - Akshay Style
-        const bioContent = document.getElementById('bio-text');
+        // Bio Parallax Layers
+        const bioTitle = document.getElementById('bio-title');
+        const bioSub = document.getElementById('bio-sub');
+        const bioWrapper = document.querySelector('.bio-content');
+
         const phases = [
-            { h1: "Dinesh Manore<span class='accent-blue'>.</span>", p: "Interaction Designer & Full Stack Developer" },
-            { h1: "Creative Engineering<span class='accent-blue'>.</span>", p: "Where function meets digital precision" },
-            { h1: "Build the Future<span class='accent-blue'>.</span>", p: "Crafting products for tomorrow's web" }
+            { h1: "Dinesh<br>Manore", p: "Interaction Designer & Developer" },
+            { h1: "Cinematic<br>Experience", p: "interfaces that move with purpose" },
+            { h1: "Digital<br>Innovation", p: "functional solutions with precision" }
         ];
 
-        let currentPhase = -1;
+        // Entrance
+        gsap.to(bioTitle, { opacity: 1, y: 0, duration: 1.5, ease: "power4.out", delay: 0.5 });
+        gsap.to(bioSub, { opacity: 1, y: 0, duration: 1.5, ease: "power4.out", delay: 0.8 });
+
+        // Phase Transitions
         const updateBio = (index) => {
-            if (index === currentPhase) return;
-            currentPhase = index;
-            gsap.to(bioContent, { opacity: 0, y: 15, duration: 0.4, onComplete: () => {
-                bioContent.innerHTML = `<h1>${phases[index].h1}</h1><p>${phases[index].p}</p>`;
-                gsap.to(bioContent, { opacity: 1, y: 0, duration: 0.6 });
+            gsap.to(bioWrapper, { opacity: 0, y: -30, duration: 0.4, onComplete: () => {
+                bioTitle.innerHTML = phases[index].h1;
+                bioSub.innerHTML = phases[index].p;
+                gsap.to(bioWrapper, { opacity: 1, y: 0, duration: 0.6 });
             }});
         };
 
-        updateBio(0);
-
-        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "15% top", onEnter: () => updateBio(1), onLeaveBack: () => updateBio(0) });
-        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "35% top", onEnter: () => updateBio(2), onLeaveBack: () => updateBio(1) });
-        gsap.to(bioContent, { opacity: 0, scrollTrigger: { trigger: ".hero-canvas-section", start: "85% top", scrub: true }});
+        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "20% top", onEnter: () => updateBio(1), onLeaveBack: () => updateBio(0) });
+        ScrollTrigger.create({ trigger: ".hero-canvas-section", start: "40% top", onEnter: () => updateBio(2), onLeaveBack: () => updateBio(1) });
+        
+        // Final Fade Out
+        gsap.to(bioWrapper, {
+            opacity: 0,
+            y: -100,
+            scrollTrigger: {
+                trigger: ".hero-canvas-section",
+                start: "85% top",
+                end: "100% top",
+                scrub: true
+            }
+        });
 
         // Reveals
         gsap.utils.toArray('.fade-in-up').forEach(el => {
-            gsap.fromTo(el, { opacity: 0, y: 40 }, { 
-                opacity: 1, y: 0, 
-                duration: 1.2, 
+            gsap.fromTo(el, { opacity: 0, y: 60 }, {
+                opacity: 1, y: 0,
+                duration: 1.5,
                 ease: "power3.out",
                 scrollTrigger: { trigger: el, start: "top 90%" }
             });

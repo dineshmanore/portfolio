@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dinesh Manore | Developer Portfolio</title>
-    <meta name="description" content="Cinematic scrollytelling portfolio of Dinesh Manore, Creative Developer.">
+    <title>Dinesh Manore | Motion Portfolio</title>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css?v=2.5">
+    <link rel="stylesheet" href="style.css?v=3.0">
 </head>
 <body>
     <div class="cursor" id="cursor"></div>
 
-    <!-- Header / Nav Pill -->
+    <!-- Header -->
     <header>
         <nav class="nav-pill">
             <a href="#home" class="nav-link">Home</a>
-            <a href="#about" class="nav-link">About</a>
             <a href="#projects" class="nav-link">Work</a>
+            <a href="#about" class="nav-link">About</a>
             <a href="#contact" class="nav-link">Contact</a>
         </nav>
     </header>
 
-    <!-- Cinematic Hero -->
+    <!-- Main Section -->
     <section id="home" class="hero-canvas-section">
         <div id="loader">
             <div id="loader-percent">0</div>
@@ -32,10 +31,9 @@
             <canvas id="scrolly-canvas"></canvas>
             
             <div id="scrolly-bio">
-                <div class="bio-content-container">
-                    <div id="bio-text">
-                        <!-- Content Injected -->
-                    </div>
+                <div class="bio-content">
+                    <h1 class="bio-h1" id="bio-title">Dinesh<br>Manore</h1>
+                    <p class="bio-p" id="bio-sub">Interaction Designer & Developer</p>
                 </div>
             </div>
         </div>
@@ -44,66 +42,62 @@
     <!-- Content Sections -->
     <div class="content-wrapper">
         
-        <!-- About Section -->
-        <section id="about" class="section py-32">
+        <!-- Work Section -->
+        <section id="projects" class="section">
             <div class="container">
-                <div class="grid col-2 items-center">
-                    <div class="about-visual fade-in-up">
-                        <div class="neural-graphic"></div>
-                        <!-- Placeholder for big image/visual like Akshay's -->
-                    </div>
+                <span class="section-label">Selected Projects</span>
+                <h2 class="section-title">Selected <br> <span class="accent-text">Works.</span></h2>
+                
+                <div id="projects-grid" class="projects-grid">
+                    <!-- Cards via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <span class="section-label">About</span>
+                <h2 class="section-title">Crafting Motion <br> <span class="accent-text">Design.</span></h2>
+                
+                <div class="grid col-2">
                     <div class="fade-in-up">
-                        <span class="section-tag">About Me</span>
-                        <h2 class="section-title">Developer by day, <br> <span class="accent-blue">Designer by night.</span></h2>
                         <div class="about-text">
-                            <p>I am a second-year B.Tech student at G H Raisoni International Skill Tech University, Pune. My mission is to build digital products that are as functional as they are beautiful.</p>
-                            <p>I specialize in <strong>Interactive Development</strong> and <strong>AI System Design</strong>, focusing on creating seamless user flows and cinematic web experiences.</p>
+                            <p>I am a second-year B.Tech student focusing on deep interaction design and full-stack architecture. I believe in interfaces that don't just work, but <strong>move</strong> with a purpose.</p>
+                            <p>My work combines cinematic motion with technical logic to create digital products that leave a lasting impression.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Marquee Skills -->
-        <div class="marquee-container">
-            <div class="marquee-content" id="marquee-skills">
-                <!-- Skill badges injected twice for infinite loop -->
+        <!-- Kinetic Skills -->
+        <div class="marquee">
+            <div class="marquee-inner" id="marquee-inner">
+                <!-- Injected via JS -->
             </div>
         </div>
 
-        <!-- Projects Section -->
-        <section id="projects" class="section py-32">
+        <!-- Contact -->
+        <section id="contact" class="section">
             <div class="container">
-                <span class="section-tag">Selected Projects</span>
-                <h2 class="section-title">My Recent <span class="accent-blue">Work.</span></h2>
-                
-                <div id="projects-grid" class="grid col-2">
-                    <!-- Cards Injected -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="section py-32 text-center">
-            <div class="container">
-                <h2 class="section-title">Let's build <span class="accent-blue">something.</span></h2>
-                <a href="mailto:dineshmanore6@gmail.com" style="text-decoration: none; font-size: 1.5rem; font-weight: 700; color: white; border-bottom: 2px solid var(--accent);">
-                    dineshmanore6@gmail.com
-                </a>
+                <h2 class="contact-big">Let's <br> Build <br> <span class="accent-text">Together.</span></h2>
+                <a href="mailto:dineshmanore6@gmail.com" class="btn-contact">dineshmanore6@gmail.com</a>
             </div>
         </section>
 
         <footer>
             <div class="container">
-                <p>© 2026 Dinesh Manore. Inspired by Akshay.</p>
+                <p>© 2026 Dinesh Manore. Cinematic Experience.</p>
             </div>
         </footer>
 
     </div>
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="script.js?v=2.5"></script>
+    <script src="script.js?v=3.0"></script>
 </body>
 </html>
