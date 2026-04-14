@@ -16,7 +16,7 @@
 }
 
 html {
-    zoom: 0.82;
+    font-size: 15px;
 }
 
 html.lenis { height: auto; }
@@ -109,7 +109,7 @@ header {
 }
 
 #loader-name {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 800;
     letter-spacing: -0.04em;
     color: #fff;
@@ -224,15 +224,15 @@ header {
 }
 
 .overlay-h1 {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2rem, 5.5vw, 4.5rem);
     font-weight: 800;
-    tracking: -0.05em;
+    letter-spacing: -0.05em;
     line-height: 1.1;
     margin-bottom: 1rem;
 }
 
 .overlay-h2 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -240,7 +240,7 @@ header {
 }
 
 .overlay-p {
-    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-size: clamp(0.85rem, 1.4vw, 1.1rem);
     color: rgba(255, 255, 255, 0.7);
     font-weight: 300;
 }
@@ -259,18 +259,18 @@ header {
 /* Sections */
 .section {
     position: relative;
-    padding: 10rem 0;
+    padding: 7rem 0;
     z-index: 20;
     background: var(--bg-base);
 }
 
 .section-label {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -474,7 +474,7 @@ header {
 }
 
 .m-item {
-    font-size: 4rem;
+    font-size: 2.8rem;
     font-weight: 900;
     color: transparent;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
@@ -486,15 +486,15 @@ header {
 
 /* Contact Section */
 .contact-big {
-    font-size: clamp(3rem, 10vw, 8rem);
+    font-size: clamp(2.2rem, 7vw, 5.5rem);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.05em;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
 .btn-contact {
-    font-size: clamp(1rem, 3vw, 2rem);
+    font-size: clamp(0.9rem, 2vw, 1.4rem);
     font-weight: 600;
     color: white;
     text-decoration: none;
