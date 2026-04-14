@@ -144,17 +144,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loaderPercent) loaderPercent.innerText = '100%';
         if (loaderBarFill) loaderBarFill.style.width = '100%';
 
-        // Short pause at 100% so user sees it, then smooth reveal
+        // ── Step 1: Size canvas & draw frame 0 WHILE loader still covers screen ──
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width  = window.innerWidth  * dpr;
+        canvas.height = window.innerHeight * dpr;
+        renderFrame(0);
+
+        // ── Step 2: Short pause so user sees 100%, then reveal everything at once ──
         setTimeout(() => {
-            const tl = gsap.timeline();
-            tl.to(loader, { opacity: 0, duration: 0.8, ease: 'power2.inOut' })
-              .call(() => { loader.style.display = 'none'; })
-              .to(canvasWrapper, { opacity: 1, duration: 0.6, ease: 'power2.out' })
-              .call(() => {
-                  renderFrame(0);
-                  initScrollAnimation();
-              });
-        }, 400);
+            // Fade out loader
+            gsap.to(loader, { opacity: 0, duration: 0.9, ease: 'power2.inOut',
+                onComplete: () => { loader.style.display = 'none'; }
+            });
+            // Simultaneously fade in canvas (already has first frame drawn)
+            gsap.to(canvasWrapper, { opacity: 1, duration: 0.9, ease: 'power2.out',
+                onComplete: () => { initScrollAnimation(); }
+            });
+        }, 500);
     };
 
     // ─── Preloading Images ────────────────────────────────────────────────────
