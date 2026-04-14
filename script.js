@@ -1,3 +1,7 @@
+// Always start at the very top — disable browser scroll memory
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
+
 document.addEventListener('DOMContentLoaded', () => {
     // 1. Lenis Smooth Scroll
     const lenis = new Lenis({
@@ -7,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
         smoothWheel: true,
         smoothTouch: false,
     });
+
+    // Force to very top (catches any browser scroll restore)
+    lenis.scrollTo(0, { immediate: true });
+
 
     function raf(time) {
         lenis.raf(time);
