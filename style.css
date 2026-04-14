@@ -248,50 +248,51 @@ header {
 
 .p-card {
     position: relative;
-    height: 450px;
     border-radius: 1.5rem;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(10, 10, 15, 0.85);
     backdrop-filter: blur(24px);
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 2.5rem;
     text-decoration: none;
     cursor: pointer;
 }
 
 .p-card:hover {
     border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(20, 20, 30, 0.95);
     transform: translateY(-10px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+}
+
+.p-img-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--border);
+    flex: 1;
 }
 
 .p-img-bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.4;
-    transition: all 0.7s;
+    object-fit: contain;
+    object-position: center top;
+    opacity: 0.85;
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    display: block;
 }
 
 .p-card:hover .p-img-bg {
-    opacity: 0.6;
-    transform: scale(1.05);
+    opacity: 1;
+    transform: scale(1.03);
 }
 
 .p-gradient {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.4), transparent);
-    opacity: 0.8;
+    display: none;
 }
 
 .p-content {
@@ -299,8 +300,12 @@ header {
     z-index: 2;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     width: 100%;
+    padding: 1.5rem 2rem;
+    background: rgba(10, 10, 15, 0.9);
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
 }
 
 .p-cat {
@@ -313,30 +318,31 @@ header {
 }
 
 .p-title {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
     font-weight: 600;
     color: white;
     letter-spacing: -0.02em;
-    transition: transform 0.5s;
+    transition: color 0.3s;
 }
 
 .p-card:hover .p-title {
-    transform: translateY(-8px);
+    color: var(--accent);
 }
 
 .p-arrow {
     background: white;
     color: black;
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 50%;
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateX(10px);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
 }
 
 .p-card:hover .p-arrow {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
 }
 
 /* Service Grid (What I Do) */

@@ -68,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.target = "_blank";
                 card.className = "p-card fade-in-up";
                 card.innerHTML = `
-                    <img src="${encodeURI(p.image)}" alt="${p.title}" class="p-img-bg" loading="lazy">
+                    <div class="p-img-wrapper" style="min-height:260px;">
+                        <img src="${encodeURI(p.image)}" alt="${p.title}" class="p-img-bg" loading="lazy">
+                    </div>
                     <div class="p-gradient"></div>
                     <div class="p-content">
                         <div>
