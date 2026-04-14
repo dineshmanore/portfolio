@@ -98,15 +98,58 @@ header {
     z-index: 9999;
     background: #000;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 2rem;
+}
+
+#loader-name {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #fff;
+}
+
+#loader-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: clamp(200px, 40vw, 500px);
+    gap: 1.5rem;
+}
+
+#loader-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#loader-bar-wrap {
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+#loader-bar-fill {
+    height: 100%;
+    background: #fff;
+    width: 0%;
+    transition: width 0.1s linear;
 }
 
 #loader-percent {
-    font-size: 15vw;
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.5);
+    min-width: 36px;
+    text-align: right;
 }
 
 /* Cinematic Hero */
@@ -270,18 +313,19 @@ header {
 .p-img-wrapper {
     position: relative;
     width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.4);
+    background: #0a0a0f;
     border-bottom: 1px solid var(--border);
-    flex: 1;
+    flex-shrink: 0;
 }
 
 .p-img-bg {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center top;
-    opacity: 0.85;
+    opacity: 0.9;
     transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
 }

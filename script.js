@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('scrolly-canvas');
     const ctx = canvas.getContext('2d');
     const loaderPercent = document.getElementById('loader-percent');
+    const loaderBarFill = document.getElementById('loader-bar-fill');
     const loader = document.getElementById('loader');
     const cursor = document.getElementById('cursor');
 
@@ -109,7 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
             img.onload = () => {
                 framesLoaded++;
                 const progress = (framesLoaded / TOTAL_FRAMES) * 100;
-                if (loaderPercent) loaderPercent.innerText = Math.round(progress);
+                const rounded = Math.round(progress);
+                if (loaderPercent) loaderPercent.innerText = rounded + '%';
+                if (loaderBarFill) loaderBarFill.style.width = progress + '%';
                 if (framesLoaded === TOTAL_FRAMES) {
                     gsap.to(loader, { opacity: 0, duration: 1, ease: "power2.inOut", onComplete: () => {
                         loader.style.display = 'none';
